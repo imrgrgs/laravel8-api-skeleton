@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Repositories;
+
+
+use App\Repositories\BaseRepository;
+
+/**
+ * Class UserRepository
+ * @package App\Repositories
+ */
+
+class GenericRepository extends BaseRepository
+{
+    public function getAllowedFilters()
+    {
+        return [
+
+        ];
+    }
+
+    public function getAllowedIncludes()
+    {
+        return [
+
+        ];
+    }
+
+    public function getAllowedFields()
+    {
+        return [
+
+        ];
+    }
+
+    public function getAllowedSorts()
+    {
+        return [
+
+        ];
+    }
+
+    /**
+     * Configure the Model
+     **/
+    public function model()
+    {
+       // return User::class;
+    }
+}

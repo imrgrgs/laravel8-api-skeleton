@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Services\Contracts;
+
+use App\Services\Contracts\ServiceInterface;
+
+
+interface {{interface}} extends ServiceInterface
+{
+
+}
