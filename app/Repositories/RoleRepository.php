@@ -23,8 +23,6 @@ class RoleRepository extends BaseRepository
         return [
             AllowedFilter::exact('name'),
             AllowedFilter::exact('id'),
-            AllowedFilter::exact('active'),
-
         ];
     }
 

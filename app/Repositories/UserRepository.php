@@ -70,7 +70,6 @@ class UserRepository extends BaseRepository
 
     public function allPermissions($id)
     {
-        $model = $this->find($id);
-        return $model->allPermissions();
+        return $this->find($id)->allPermissions();
     }
 }
