@@ -128,6 +128,11 @@ class AuthController extends APIController
         );
     }
 
+    /**
+     * Starts and creates services class
+     *
+     * @return void
+     */
     private function setServices()
     {
         $this->userService = new UserService();

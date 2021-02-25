@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::get('/', function () {
         'status' => 200,
         'success' => true,
         'message' => config('app.name') . ' vs. ' . config('app.version'),
-        'data' => ['Developer' => 'BIT-IO Systems', 'Copyright' => '2021']
+        'data' => ['Developer' => 'developer', 'Copyright' => '2020 - ' . Carbon::now()->format('Y')]
     ], 200);
 });
 
@@ -68,7 +69,7 @@ Route::fallback(function () {
     return response()->json([
         'status' => 404,
         'success' => false,
-        'message' => 'Page Not Found. If error persists, contact ti@bitio.com.br',
+        'message' => 'Page Not Found. If error persists, contact ti@email.com.br',
         'data' => null
     ], 404);
 });
