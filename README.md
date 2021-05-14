@@ -13,7 +13,7 @@ Laravel8 API Skeleton is a web application with Laravel8 framework
 -   chmod -R 755 storage bootstrap/cache
 -   edit and adjust .env file
 -   create database
--   run php artisan migrate
+-   run php artisan db:seed --class=LaratrustSeeder
 -   run php artisan db:seed
 
 -   to excute http://skeleton/api

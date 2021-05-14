@@ -16,6 +16,7 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
     'developer' => env('APP_DEVELOPER', 'Developer'),
     'version' => env('APP_VERSION', '1.0'),
+    'contact_error' => env('APP_CONTACT_ERROR', 'contac@email.com'),
 
     /*
     |--------------------------------------------------------------------------

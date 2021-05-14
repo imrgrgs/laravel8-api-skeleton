@@ -69,7 +69,7 @@ Route::fallback(function () {
     return response()->json([
         'status' => 404,
         'success' => false,
-        'message' => 'Page Not Found. If error persists, contact ti@email.com.br',
+        'message' => 'Page Not Found. If error persists, contact ' . config('app.contact_error'),
         'data' => null
     ], 404);
 });
