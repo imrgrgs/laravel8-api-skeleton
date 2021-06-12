@@ -1,0 +1,476 @@
+{
+	"info": {
+		"_postman_id": "9a51b868-09b3-48ae-960f-7793261f444b",
+		"name": "skeleton-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Default",
+			"item": [
+				{
+					"name": "Change Avatar Default",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/home/iomar/Pictures/avatars/avatar-default.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://skeleton-api.test/api/installs/change-avatar",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"installs",
+								"change-avatar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an especific user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/2",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Novo User",
+									"description": "required|min:3|max:128",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "novouser@email.com",
+									"description": "required|email|unique:users,email",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"description": "required|min:8|max:32",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"description": "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+									"type": "file",
+									"src": "/home/iomar/Pictures/avatars/avatar-1300331__340.png"
+								},
+								{
+									"key": "roles[0]",
+									"value": "admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "roles[1]",
+									"value": "superadmin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Novo User",
+									"description": "required|min:3|max:128",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "novouser@email.com",
+									"description": "required|email|unique:users,email",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"description": "required|min:8|max:32",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "avatar",
+									"description": "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+									"type": "file",
+									"src": "/home/iomar/Pictures/avatars/avatar-1300331__340.png"
+								},
+								{
+									"key": "roles[0]",
+									"value": "admin",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/2",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/home/iomar/Pictures/avatars/avatar-3637561__340.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/3/change-avatar",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"3",
+								"change-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an especific user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/{id}",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change active status to ACTIVE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/{id}/active",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change active status to DEACTIVE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/{id}/deactive",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}",
+								"deactive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change active status TRUE or FALSE(inverte values)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://skeleton-api.test/api/users/{id}/change-active-status",
+							"protocol": "http",
+							"host": [
+								"skeleton-api",
+								"test"
+							],
+							"path": [
+								"api",
+								"users",
+								"{id}",
+								"change-active-status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "superadmin@app.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://skeleton-api.test/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"skeleton-api",
+						"test"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://skeleton-api.test/api/auth/me",
+					"protocol": "http",
+					"host": [
+						"skeleton-api",
+						"test"
+					],
+					"path": [
+						"api",
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://skeleton-api.test/api/auth/refresh",
+					"protocol": "http",
+					"host": [
+						"skeleton-api",
+						"test"
+					],
+					"path": [
+						"api",
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://skeleton-api.test/api/auth/logout",
+					"protocol": "http",
+					"host": [
+						"skeleton-api",
+						"test"
+					],
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9za2VsZXRvbi1hcGkudGVzdFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyMjEzODkwOCwiZXhwIjoxNjIyMTQyNTA4LCJuYmYiOjE2MjIxMzg5MDgsImp0aSI6IlVEanVBenBjR2RwN0RaaDAiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.o3Ber1eyQr1RBlIaPWsoeR33YNBYBlsF3reyxAAqAOM",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
