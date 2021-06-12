@@ -46,7 +46,11 @@ trait Images
         if (!empty($options['width']) && !empty($options['height'])) {
             $oAvatar = Image::make($image->getRealPath())->fit($options['width'], $options['height']);
             $oAvatar = $oAvatar->stream();
-            $storage = $storage . '/thumbnail';
+            if (!empty($options['storage_thumb'])) {
+                $storage = $options['storage_thumb'];
+            } else {
+                $storage = $storage . '/thumb';
+            }
             Storage::put($storage . DIRECTORY_SEPARATOR . $imageNameSaved, $oAvatar->__toString());
         }
 

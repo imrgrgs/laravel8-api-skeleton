@@ -63,6 +63,7 @@ class RoleRepository extends BaseRepository
 
     public function getRoleLevel($name)
     {
+
         $oRole = $this->getByColumnOrFail('name', $name);
         $roles = Config::get('permissions.roles');
         if (!$roles) {

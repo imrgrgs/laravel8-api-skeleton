@@ -25,13 +25,28 @@ Route::get('/', function () {
     ], 200);
 });
 
+
+/**
+ * Default group routes access
+ */
+$installs = [
+    'prefix' => 'installs',
+    'domain' => '',
+    //    'middleware' => 'api',
+    'as' => 'installs.',
+    'namespace' => 'Installs',
+];
+Route::group($installs, function () {
+    Route::post('change-avatar', ['as' => 'change.avatar', 'uses' => 'UserAvatarAPIController@changeAvatar',]);
+}); // end group installs
+
 /**
  * Auth group routes access
  */
 $auth = [
     'prefix' => 'auth',
     'domain' => '',
-    'middleware' => 'api',
+    //    'middleware' => 'api',
     'as' => 'auth.',
     'namespace' => 'Auth',
 ];
@@ -48,7 +63,7 @@ Route::group($auth, function () {
 $user = [
     'prefix' => 'users',
     'domain' => '',
-    'middleware' => 'auth:api',
+    'middleware' => 'jwt.auth',
     'as' => 'users.',
     'namespace' => 'User',
 ];
@@ -58,9 +73,10 @@ Route::group($user, function () {
     Route::get('{id}', ['as' => 'show', 'uses' => 'UserAPIController@show',]);
     Route::put('{id}', ['as' => 'update', 'uses' => 'UserAPIController@update',]);
     Route::delete('{id}', ['as' => 'delete', 'uses' => 'UserAPIController@destroy',]);
-    Route::post('{id}/change_active_status', ['as' => 'change.active.status', 'uses' => 'UserAPIController@changeActiveStatus',]);
+    Route::post('{id}/change-active-status', ['as' => 'change.active.status', 'uses' => 'UserAPIController@changeActiveStatus',]);
     Route::post('{id}/active', ['as' => 'active', 'uses' => 'UserAPIController@active',]);
     Route::post('{id}/deactive', ['as' => 'deactive', 'uses' => 'UserAPIController@deactive',]);
+    Route::post('{id}/change-avatar', ['as' => 'change.avatar', 'uses' => 'UserAPIController@changeAvatar',]);
 }); // end group user
 
 
@@ -69,7 +85,7 @@ Route::fallback(function () {
     return response()->json([
         'status' => 404,
         'success' => false,
-        'message' => 'Page Not Found. If error persists, contact ' . config('app.contact_error'),
+        'message' => __('messages.page_not_found', ['contact' => config('app.contact_error')]), //Page Not Found. If error persists, contact ' . config('app.contact_error'),
         'data' => null
     ], 404);
 });

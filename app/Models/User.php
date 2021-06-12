@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Laratrust\Traits\LaratrustUserTrait;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Laratrust\Traits\LaratrustUserTrait;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+    const AVATAR_STORAGE = 'public/images/avatars';
+    const AVATAR_THUMB_STORAGE = 'public/images/avatars/thumb';
+    const AVATAR_DEFAULT = 'default-avatar.png';
+
     use LaratrustUserTrait;
     use HasFactory, Notifiable;
 
@@ -79,6 +85,42 @@ class User extends Authenticatable implements JWTSubject
         'active' => 'boolean',
     ];
 
+
+    /*|-----------------------------------------------------------------------
+      | Appends = calculated attributes
+      |-----------------------------------------------------------------------
+      */
+
+    protected $appends = ['_link',];
+
+    /**
+     * @return Enterprise link to show
+     **/
+    public function getLinkAttribute()
+    {
+        if ($this->avatar) {
+            $href = URL::to('/') . Storage::url(self::AVATAR_STORAGE) . '/' . $this->avatar;
+        } else {
+            $href = URL::to('/') . Storage::url(self::AVATAR_STORAGE) . '/' . self::AVATAR_DEFAULT;
+        }
+        return [
+            'href_avatar' => $href,
+
+        ];
+    }
+
+    /*|-----------------------------------------------------------------------
+      | END Appends = calculated attributes
+      |-----------------------------------------------------------------------
+      */
+
+
+    /*|----------------------------------------------------------------------------
+      | Json Web Token for API access
+      | It is part of tymon/jwt-auth package
+      |----------------------------------------------------------------------------
+      */
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -98,4 +140,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    /*|----------------------------------------------------------------------------
+      | END Json Web Token for API access
+      | It is part of tymon/jwt-auth package
+      |----------------------------------------------------------------------------
+      */
 }

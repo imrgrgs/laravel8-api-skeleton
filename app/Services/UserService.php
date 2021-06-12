@@ -6,11 +6,12 @@ use Exception;
 use Carbon\Carbon;
 
 use App\Models\User;
+use App\Traits\Images;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
-use App\Traits\Images;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -54,6 +55,7 @@ class UserService
         $userLogedRolesLevel = [];
         foreach ($userLogedRoles as $role) {
             $level = $this->roleRepository->getRoleLevel($role->name);
+
             $userLogedRolesLevel[] = $level;
             if ($level > $maxRoleLevelUserLoged) {
                 $maxRoleLevelUserLoged = $level;
@@ -62,9 +64,13 @@ class UserService
 
 
         $userToAtachRoles = $input['roles'];
+
         $userToAtachRolesLevel = [];
-        foreach ($userToAtachRoles as $key => $roleName) {
-            $level = $this->roleRepository->getRoleLevel($roleName);
+
+        foreach ($userToAtachRoles as $role) {
+
+            $level = $this->roleRepository->getRoleLevel($role);
+
             $userToAtachRolesLevel[] = $level;
             if ($level > $maxRoleLevelToAtach) {
                 $maxRoleLevelToAtach = $level;
@@ -83,18 +89,18 @@ class UserService
             throw new Exception($message, \Illuminate\Http\Response::HTTP_FORBIDDEN);
         }
         $rolesToAtach = [];
-        foreach ($userToAtachRoles as $name) {
+        foreach ($userToAtachRoles as $key => $roleName) {
 
             $rolesToAtach[] = $this->roleRepository->getByColumnOrFail(
                 'name',
-                $name
+                $roleName
             );
         }
 
         if ($avatar) {
             $storage = User::AVATAR_STORAGE;
             $names = $this->loadImage($avatar, $storage);
-            $avatar = $names['imageNameSaved'];
+            $avatar = $names['nameSaved'];
         }
         DB::beginTransaction();
         $user = $this->userRepository->create([
@@ -155,6 +161,50 @@ class UserService
         }
         return $user;
     }
+
+    public function deleteAvatar($id)
+    {
+        $user = $this->userRepository->findOrFail($id);
+        $delAvatar = $user->avatar;
+        $storage = User::AVATAR_STORAGE;
+        if ($delAvatar) {
+            if (!$this->deleteImage($delAvatar, $storage)) {
+                Log::info('Não excluiu a imagem ' . $delAvatar);
+            };
+            DB::beginTransaction();
+            $user = $this->userRepository->update(['avatar' => null], $id);
+            DB::commit();
+        }
+
+
+        return $user;
+    }
+
+    public function changeAvatar($id, $avatar = null)
+    {
+        $user = $this->userRepository->findOrFail($id);
+        $delAvatar = $user->avatar;
+        $storage = User::AVATAR_STORAGE;
+
+        if ($delAvatar) {
+            if (!$this->deleteImage($delAvatar, $storage)) {
+                Log::info('Não excluiu a imagem ' . $delAvatar);
+            };
+        }
+        if ($avatar) {
+
+            $names = $this->loadImage($avatar, $storage);
+            $avatar = $names['nameSaved'];
+        }
+
+
+        DB::beginTransaction();
+        $user = $this->userRepository->update(['avatar' => $avatar], $id);
+        DB::commit();
+
+        return $user;
+    }
+
 
     /**
      * Delete an especific user from database

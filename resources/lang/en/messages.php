@@ -10,6 +10,7 @@ return [
     'successfully_logged_out' => ':model Successfully logged out.',
     'http_internal_server_error' => 'http internal server error.',
     'given_data_was_invalid' => 'The given data was invalid.',
-    'no_permission' => 'User has no permission for this action.'
+    'no_permission' => 'Sorry, you have no permission for this action.',
+    'page_not_found' => 'Page Not Found. If error persists, contact :contact',
 
 ];

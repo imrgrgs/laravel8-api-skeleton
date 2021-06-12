@@ -26,7 +26,7 @@ class UserAPIController extends APIController
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        //$this->middleware('jwt.auth');
         $this->setServices();
     }
 
@@ -151,6 +151,34 @@ class UserAPIController extends APIController
             __('auth.active_success')
         );
     }
+
+    /**
+     * Deactive an User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAvatar($id)
+    {
+        $user = $this->userService->deleteAvatar($id);
+        return $this->sendSuccess(
+            __('auth.avatar_success')
+        );
+    }
+
+    /**
+     * Deactive an User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeAvatar($id, Request $request)
+    {
+        $avatar = $request->file('avatar');
+        $user = $this->userService->changeAvatar($id, $avatar);
+        return $this->sendSuccess(
+            __('auth.avatar_success')
+        );
+    }
+
 
     /**
      * Update a new user

@@ -137,9 +137,6 @@ class Handler extends ExceptionHandler
         }
 
 
-        if ($request->expectsJson() or $request->isXmlHttpRequest()) {
-            return $this->sendError($message, $code, $data);
-        }
         return $this->sendError($message, $code, $data);
         // return parent::render($request, $exception);
     }
