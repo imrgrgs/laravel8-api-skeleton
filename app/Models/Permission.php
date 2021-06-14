@@ -11,5 +11,9 @@ class Permission extends LaratrustPermission
     use HasTranslations;
     use LogsActivity;
     public $translatable = ['display_name', 'description'];
+
+    /**
+     * all attributes are fillable
+     */
     public $guarded = [];
 }

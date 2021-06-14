@@ -94,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
     protected $appends = ['_link',];
 
     /**
-     * @return Enterprise link to show
+     * @return User link to show
      **/
     public function getLinkAttribute()
     {

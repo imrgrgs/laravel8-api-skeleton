@@ -11,5 +11,10 @@ class Role extends LaratrustRole
     use HasTranslations;
     use LogsActivity;
     public $translatable = ['display_name', 'description'];
+
+    /**
+     * all attributes are fillable
+     */
+
     public $guarded = [];
 }
