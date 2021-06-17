@@ -38,7 +38,7 @@ class CreateParamTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('param_id');
             $table->string('code');
-            $table->longText('label');
+            $table->string('name');
             $table->string('symbol')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_visible')->nullable();
@@ -76,6 +76,5 @@ class CreateParamTable extends Migration
         Schema::dropIfExists('param_values');
         Schema::dropIfExists('param_descriptions');
         Schema::dropIfExists('params');
-
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Param;
+use App\Services\ParamService;
 use Closure;
 use App\Utils\Locale;
 use App\Utils\ResponseUtil;
 use App\Traits\ApiResponser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 
 class Localization
@@ -26,14 +29,20 @@ class Localization
         if (!$local) {
             $local = app()->getLocale();
         }
-        // criar param locales
-        if (!in_array($local, Locale::$allowedLocales)) {
-            $error = __('messages.locale_not_allowed', ['attribute' => $request->header('X-localization'), 'allowed' => implode(', ', Locale::$allowedLocales)]);
-            return $this->sendError(
-                __($error, ['model' => __('models/users.singular')])
-            );
-            return Response::json(ResponseUtil::makeError($error), 400);
+
+        /*|-------------------------------------------------------------------------
+          | Leitura de params para obter os locales válidos param-name = 'locales'
+          |-------------------------------------------------------------------------
+          */
+        $paramName = 'locales';
+        $values = ParamService::getValuesByParamName($paramName);
+        if (!$values->contains('code', $local)) {
+            $allowedLocales = ParamService::getValuesCodeByParamName($paramName);
+            $error = __('messages.locale_not_allowed', ['attribute' => $request->header('X-localization'), 'allowed' => implode(', ', $allowedLocales)]);
+
+            return $this->sendError($error, JsonResponse::HTTP_PRECONDITION_FAILED);
         }
+
         // set laravel localization
         app()->setLocale($local);
         // continue request
