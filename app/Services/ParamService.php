@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Param;
 use App\Models\ParamValue;
 use Illuminate\Database\Eloquent\Collection;
-use ZipStream\Bigint;
+
 
 class ParamService
 {
@@ -58,9 +58,9 @@ class ParamService
      * Gets a param by id
      *
      * @param Bigint $id
-     * @return Param
+     * @return Param an Param object
      */
-    public static function getParamById(Bigint $id): Param
+    public static function getParamById(int $id): Param
     {
         return Param::where('id', $id)->first();
     }
@@ -69,7 +69,7 @@ class ParamService
      * returns a ParamValue object colletion
      *
      * @param Param $param a Param object
-     * @return Collection|null
+     * @return Collection containning paramvalue objects|null
      */
     public static function getValuesParam(Param $param): Collection
     {
