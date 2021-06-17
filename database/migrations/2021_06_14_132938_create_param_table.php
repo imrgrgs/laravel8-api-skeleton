@@ -17,48 +17,49 @@ class CreateParamTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('display_name')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
 
         // Create table for description params
         Schema::create('param_descriptions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('param_id');
             $table->longText('description')->nullable();
-            $table->foreign('param_id')->references('id')->on('params');
-
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('param_id')->references('id')->on('params');
         });
 
         // Create table for values params
         Schema::create('param_values', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('param_id');
+            $table->id();
+            $table->unsignedBigInteger('param_id')->nullable();
             $table->string('code');
-            $table->string('name');
+            $table->text('name');
             $table->string('symbol')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_visible')->nullable();
             $table->boolean('is_default')->nullable();
 
-            $table->foreign('param_id')->references('id')->on('params');
-
-
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('param_id')->references('id')->on('params');
         });
 
         // Create table for values params descriptions
         Schema::create('param_values_descriptions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('param_value_id');
             $table->longText('description')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
+
             $table->foreign('param_value_id')->references('id')->on('param_values');
         });
     }

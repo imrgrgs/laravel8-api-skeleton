@@ -16,7 +16,7 @@ class LaratrustSeeder extends Seeder
      */
     public function run()
     {
-        $this->truncateLaratrustTables();
+
 
         $models = Config::get('permissions.models');
         if ($models === null) {
@@ -31,7 +31,7 @@ class LaratrustSeeder extends Seeder
             $this->command->line('');
             return false;
         }
-
+        $this->truncateLaratrustTables();
 
         $locales = Config::get('permissions.locales');
         $perms = Config::get('permissions.perms');

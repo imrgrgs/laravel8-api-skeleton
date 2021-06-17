@@ -17,7 +17,7 @@ class ParamValue extends ModelBase
      * @var array
      */
 
-    public $translatable = ['label'];
+    public $translatable = ['name'];
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class ParamValue extends ModelBase
     protected $fillable = [
         'param_id',
         'code',
-        'label',
+        'name',
         'symbol',
         'color',
         'is_visible',
