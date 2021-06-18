@@ -21,7 +21,7 @@ Route::get('/', function () {
         'status' => 200,
         'success' => true,
         'message' => config('app.name') . ' vs. ' . config('app.version'),
-        'data' => ['Developer' => 'developer', 'Copyright' => '2020 - ' . Carbon::now()->format('Y')]
+        'data' => ['Developer' => config('app.developer'), 'Copyright' => '2020 - ' . Carbon::now()->format('Y')]
     ], 200);
 });
 
@@ -32,7 +32,7 @@ Route::get('/', function () {
 $installs = [
     'prefix' => 'installs',
     'domain' => '',
-    //    'middleware' => 'api',
+    'middleware' => 'localization',
     'as' => 'installs.',
     'namespace' => 'Installs',
 ];
@@ -46,7 +46,7 @@ Route::group($installs, function () {
 $auth = [
     'prefix' => 'auth',
     'domain' => '',
-    //    'middleware' => 'api',
+    'middleware' => 'localization',
     'as' => 'auth.',
     'namespace' => 'Auth',
 ];
@@ -63,7 +63,7 @@ Route::group($auth, function () {
 $user = [
     'prefix' => 'users',
     'domain' => '',
-    'middleware' => 'jwt.auth',
+    'middleware' => ['jwt.auth','localization'],
     'as' => 'users.',
     'namespace' => 'User',
 ];
