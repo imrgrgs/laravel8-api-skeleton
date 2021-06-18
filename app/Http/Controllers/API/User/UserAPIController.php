@@ -86,7 +86,7 @@ class UserAPIController extends APIController
 
         return $this->sendResponse(
             new UserResource($user),
-            __('messages.retrived', ['model' => __('models/users.singular')])
+            __('messages.retrieved', ['model' => __('models/users.singular')])
         );
     }
 

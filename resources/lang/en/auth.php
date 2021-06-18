@@ -23,6 +23,7 @@ return [
     'active_same' => 'You can not activate yourself.',
     'deactive_success' => 'User was deactiveted successfully.',
     'active_success' => 'User was activeted successfully.',
+    'avatar_success' => 'Avatar atualizado com sucesso.'
 
 
 ];

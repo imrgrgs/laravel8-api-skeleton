@@ -26,9 +26,12 @@ class Localization
         // Check header request and determine localizaton
         $local = ($request->hasHeader('X-localization')) ? $request->header('X-localization') : app()->getLocale();
         if (!$local) {
-            $local = app()->getLocale();
+            $local = 'pt-BR';
         }
-
+        if ($local == app()->getLocale()) {
+            // continue request
+            return $next($request);
+        }
         /*|-------------------------------------------------------------------------
           | Leitura de params para obter os locales válidos param-name = 'locales'
           |-------------------------------------------------------------------------

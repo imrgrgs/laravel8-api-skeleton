@@ -12,7 +12,7 @@ return [
     'no_permission' => 'Sorry, you have no permission for this action.',
     'page_not_found' => 'Page Not Found. If error persists, contact :contact',
 
-    'locale_not_allowed' => 'locale :attribute not allowed. Allowed locales are: :allowed',
+    'locale_not_allowed' => 'The request hearder "X-localization=:attribute" contains a locale :attribute not allowed. Allowed locales are: :allowed',
 
     'entry_not_found' => ':model not found',
     'logout' => 'logout was successfully.',

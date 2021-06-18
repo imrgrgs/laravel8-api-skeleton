@@ -13,16 +13,16 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'unauthorized' => 'Unauthorized.',
-    'successfully_logged_out' => 'Successfully logged out.',
-    'not_active' => 'User not active.',
-    'deactive_same' => 'You can not  deactivate yourself.',
-    'active_same' => 'You can not activate yourself.',
-    'deactive_success' => 'User was deactiveted successfully.',
-    'active_success' => 'User was activeted successfully.',
-
+    'failed' => 'Estas credencias não combinam com nossos registros.',
+    'password' => 'A senha informada não está correta.',
+    'throttle' => 'Muitas tentativas de login. Por favor tente novamente em :seconds segundos.',
+    'unauthorized' => 'Sem autorização.',
+    'successfully_logged_out' => 'Sessão encerrada com sucesso.',
+    'not_active' => 'Usuário não está ativo.',
+    'deactive_same' => 'Você não pode sesativar a si mesmo.',
+    'active_same' => 'Você não pode ativar a si mesmo.',
+    'deactive_success' => 'Usuário foi desativado com sucesso.',
+    'active_success' => 'Usuário foi ativado com sucesso.',
+    'avatar_success' => 'Avatar atualizado com sucesso.'
 
 ];
