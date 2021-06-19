@@ -66,10 +66,16 @@ class UserService
         $userToAtachRoles = $input['roles'];
 
         $userToAtachRolesLevel = [];
+        $rolesNames = [];
+        foreach ($userToAtachRoles as $key => $role) {
 
-        foreach ($userToAtachRoles as $role) {
+            $rolesNames[] = $role['name'];
+        }
 
-            $level = $this->roleRepository->getRoleLevel($role);
+
+        foreach ($rolesNames as $roleName) {
+
+            $level = $this->roleRepository->getRoleLevel($roleName);
 
             $userToAtachRolesLevel[] = $level;
             if ($level > $maxRoleLevelToAtach) {
@@ -89,7 +95,7 @@ class UserService
             throw new Exception($message, \Illuminate\Http\Response::HTTP_FORBIDDEN);
         }
         $rolesToAtach = [];
-        foreach ($userToAtachRoles as $key => $roleName) {
+        foreach ($rolesNames as $roleName) {
 
             $rolesToAtach[] = $this->roleRepository->getByColumnOrFail(
                 'name',

@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Role;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Config;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -63,7 +64,7 @@ class RoleRepository extends BaseRepository
 
     public function getRoleLevel($name)
     {
-
+        Log::debug("role name " . $name);
         $oRole = $this->getByColumnOrFail('name', $name);
         $roles = Config::get('permissions.roles');
         if (!$roles) {
@@ -71,7 +72,7 @@ class RoleRepository extends BaseRepository
             throw new Exception($message, Response::HTTP_NOT_FOUND);
         }
         $level = '';
-        foreach ($roles as $key => $role) {
+        foreach ($roles as  $role) {
             if ($role['name'] == $name) {
                 $level =  $role['level'];
             }

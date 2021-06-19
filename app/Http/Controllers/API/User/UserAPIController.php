@@ -65,6 +65,7 @@ class UserAPIController extends APIController
     {
         $input = $request->except('avatar');
         $avatar = $request->file('avatar');
+
         $user = $this->userService->save($input, $avatar);
 
         return $this->sendResponse(

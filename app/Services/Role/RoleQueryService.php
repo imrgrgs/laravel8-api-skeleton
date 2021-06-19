@@ -34,7 +34,7 @@ class RoleQueryService
      * @param Role $role a role instance to get permissions list
      * @return Collection permission objects
      */
-    public function permissions(Role $role): Collection
+    public function permissionsByRole(Role $role): Collection
     {
         return $this->getByColumn('id', $role->id)->permissions;
     }

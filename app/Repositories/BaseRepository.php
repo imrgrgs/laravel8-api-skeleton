@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Container\Container as Application;
-use Illuminate\Support\Facades\App;
 
 abstract class BaseRepository
 {
@@ -184,8 +185,10 @@ abstract class BaseRepository
      */
     public function getByColumnOrFail($column, $value, array $columns = ['*'])
     {
-
-        return $this->query->where($column, $value)->firstOrFail($columns);
+        Log::debug("by column " . $column . " value " . $value);
+        $role =  $this->query->where($column, $value)->firstOrFail($columns);
+        Log::debug("Obteve ");
+        return  $role;
     }
 
 
