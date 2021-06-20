@@ -35,6 +35,6 @@ return [
     'entity_has_dependency' => ':model has dependencies in other tables, could not executed',
     'not_authorized_delete_node' => 'Can not delete a generic node :model',
     'email_send_success' => ':model email sended successfully',
-
+    'cant_register_user_with_role_greater' => 'Can not register roles you do not have. Not allowed: :not_allowed',
 
 ];

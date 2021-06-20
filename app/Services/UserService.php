@@ -44,70 +44,70 @@ class UserService
      * @param Array $input
      * @return app/Models/User a new user saved
      */
-    public function save($input, $avatar = null)
+    public function save(array $input, array $roles = null, $avatar = null)
     {
-        $maxRoleLevelUserLoged = 0;
-        $maxRoleLevelToAtach = 0;
-
-
-        $userLoged =  auth()->user();
-        $userLogedRoles = $userLoged->roles;
-        $userLogedRolesLevel = [];
-        foreach ($userLogedRoles as $role) {
-            $level = $this->roleRepository->getRoleLevel($role->name);
-
-            $userLogedRolesLevel[] = $level;
-            if ($level > $maxRoleLevelUserLoged) {
-                $maxRoleLevelUserLoged = $level;
-            }
-        }
-
-
-        $userToAtachRoles = $input['roles'];
-
-        $userToAtachRolesLevel = [];
         $rolesNames = [];
-        foreach ($userToAtachRoles as $key => $role) {
+        $rolesToAtach = [];
 
-            $rolesNames[] = $role['name'];
-        }
+        if ($roles) {
+            $maxRoleLevelUserLoged = 0;
+
+            $userLoged =  auth()->user();
+            $userLogedRoles = $userLoged->roles;
+            $userLogedRolesLevel = [];
+            foreach ($userLogedRoles as $role) {
+                $level = $this->roleRepository->getRoleLevel($role->name);
+
+                $userLogedRolesLevel[] = $level;
+                if ($level > $maxRoleLevelUserLoged) {
+                    $maxRoleLevelUserLoged = $level;
+                }
+            }
 
 
-        foreach ($rolesNames as $roleName) {
+            $userToAtachRoles = $roles;
 
-            $level = $this->roleRepository->getRoleLevel($roleName);
+            $userToAtachRolesLevel = [];
 
-            $userToAtachRolesLevel[] = $level;
-            if ($level > $maxRoleLevelToAtach) {
-                $maxRoleLevelToAtach = $level;
+            $notAllowedRole = [];
+            foreach ($userToAtachRoles as $key => $role) {
+
+                $rolesNames[] = $role['name'];
+            }
+
+            $maxRoleLevelToAtach = 0;
+            foreach ($rolesNames as $roleName) {
+                $level = $this->roleRepository->getRoleLevel($roleName);
+                $userToAtachRolesLevel[] = $level;
+                if ($level > $maxRoleLevelToAtach) {
+                    $maxRoleLevelToAtach = $level;
+                }
+                if ($level > $maxRoleLevelUserLoged) {
+                    $notAllowedRole[] = $roleName;
+                }
+            }
+
+            if ($notAllowedRole) {
+                $message = __('messages.cant_register_user_with_role_greater', ['not_allowed' => implode(', ', $notAllowedRole)]);
+                throw new Exception($message, \Illuminate\Http\Response::HTTP_FORBIDDEN);
+            }
+            if ($rolesNames) {
+                foreach ($rolesNames as $roleName) {
+                    $rolesToAtach[] = $this->roleRepository->getByColumnOrFail(
+                        'name',
+                        $roleName
+                    );
+                }
             }
         }
 
-
-
-        $canSave = false;
-        if ($maxRoleLevelUserLoged >= $maxRoleLevelToAtach) {
-            $canSave = true;
-        }
-
-        if (!$canSave) {
-            $message = __('auth.cant_register_user_with_role_greater');
-            throw new Exception($message, \Illuminate\Http\Response::HTTP_FORBIDDEN);
-        }
-        $rolesToAtach = [];
-        foreach ($rolesNames as $roleName) {
-
-            $rolesToAtach[] = $this->roleRepository->getByColumnOrFail(
-                'name',
-                $roleName
-            );
-        }
 
         if ($avatar) {
             $storage = User::AVATAR_STORAGE;
             $names = $this->loadImage($avatar, $storage);
             $avatar = $names['nameSaved'];
         }
+
         DB::beginTransaction();
         $user = $this->userRepository->create([
             'name' => ucwords($input['name']),
@@ -115,8 +115,11 @@ class UserService
             'password' => bcrypt($input['password']),
             'avatar' => $avatar,
         ]);
-        foreach ($rolesToAtach as $role) {
-            $user->attachRole($role);
+
+        if ($rolesToAtach) {
+            foreach ($rolesToAtach as $role) {
+                $user->attachRole($role);
+            }
         }
 
         DB::commit();

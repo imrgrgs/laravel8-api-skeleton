@@ -63,10 +63,10 @@ class UserAPIController extends APIController
      */
     public function create(RegisterUserAPIRequest $request)
     {
-        $input = $request->except('avatar');
+        $input = $request->except(['avatar', 'roles']);
         $avatar = $request->file('avatar');
-
-        $user = $this->userService->save($input, $avatar);
+        $rolesToAttach = $request->get('roles');
+        $user = $this->userService->save($input, $rolesToAttach, $avatar);
 
         return $this->sendResponse(
             new UserResource($user),

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Container\Container as Application;
+
 
 abstract class BaseRepository
 {
@@ -16,23 +16,7 @@ abstract class BaseRepository
      */
     protected $model;
 
-    /**
-     * @var Application
-     */
-    //  protected $app;
-
-    /**
-     * @param Application $app
-     *
-     * @throws \Exception
-     */
-    // public function __construct(Application $app)
-    public function __construct()
-    {
-        //   $this->app = $app;
-        $this->makeModel();
-        $this->newQuery();
-    }
+    protected $query;
 
     /**
      * Get searchable fields array
@@ -70,6 +54,12 @@ abstract class BaseRepository
      */
     abstract public function model();
 
+    public function __construct()
+    {
+        $this->model = $this->makeModel();
+        $this->query = $this->newQuery();
+    }
+
     /**
      * Make Model instance
      *
@@ -77,29 +67,40 @@ abstract class BaseRepository
      *
      * @return Model
      */
-    public function makeModel()
+    public function makeModel(): Model
     {
-        // $model = $this->app->make($this->model());
+
         $model = App::make($this->model());
         if (!$model instanceof Model) {
             throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model", 500);
         }
 
-        return $this->model = $model;
+        return $model;
     }
 
-
+    /**
+     * Undocumented function
+     *
+     * @return QueryBuilder
+     */
+    protected function newQuery(): QueryBuilder
+    {
+        return QueryBuilder::for($this->model);
+    }
 
 
     public function allQuery()
     {
-        return $this->query
+        return $this->query()
             ->allowedFilters($this->getAllowedFilters())
             ->allowedFields($this->getAllowedFields())
             ->allowedIncludes($this->getAllowedIncludes())
             ->allowedSorts($this->getAllowedSorts());
     }
-
+    protected function query(): QueryBuilder
+    {
+        return QueryBuilder::for($this->model);
+    }
     /**
      * Retrieve all records with given filter criteria
      *
@@ -125,11 +126,11 @@ abstract class BaseRepository
      */
     public function create($input)
     {
-        $model = $this->model->newInstance($input);
+        $object = $this->model->newInstance($input);
 
-        $model->save();
+        $object->save();
 
-        return $model;
+        return $object;
     }
 
     /**
@@ -143,7 +144,7 @@ abstract class BaseRepository
     public function find($id, $columns = ['*'])
     {
 
-        return $this->query->find($id, $columns);
+        return $this->query()->find($id, $columns);
     }
 
     /**
@@ -157,7 +158,7 @@ abstract class BaseRepository
     public function findOrFail($id, $columns = ['*'])
     {
 
-        return $this->query->findOrFail($id, $columns);
+        return $this->query()->findOrFail($id, $columns);
     }
 
     /**
@@ -171,7 +172,7 @@ abstract class BaseRepository
     public function getByColumn($column, $value, array $columns = ['*'])
     {
 
-        return $this->query->where($column, $value)->first($columns);
+        return $this->query()->where($column, $value)->first($columns);
     }
 
     /**
@@ -183,34 +184,30 @@ abstract class BaseRepository
      * @return Model
      * @throws ModelNotFoundException
      */
-    public function getByColumnOrFail($column, $value, array $columns = ['*'])
+    public function getByColumnOrFail($column, $value, array $columns = ['*']): Model
     {
-        Log::debug("by column " . $column . " value " . $value);
-        $role =  $this->query->where($column, $value)->firstOrFail($columns);
-        Log::debug("Obteve ");
-        return  $role;
+        return  $this->query()->where($column, $value)->firstOrFail($columns);
     }
 
 
     /**
-     * Update model record for given id
+     * Update data
      *
      * @param array $input
-     * @param int $id
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
+     * @param integer $id
+     * @return Model
      */
-    public function update($input, $id)
+    public function update(array $input, int $id): Model
     {
 
 
-        $model =  $this->findOrFail($id);
+        $object =  $this->findOrFail($id);
 
-        $model->fill($input);
+        $object->fill($input);
 
-        $model->save();
+        $object->save();
 
-        return $model;
+        return $object;
     }
 
     /**
@@ -218,26 +215,13 @@ abstract class BaseRepository
      *
      * @throws \Exception
      *
-     * @return bool|mixed|null
+     * @return bool
      */
-    public function delete($id)
+    public function delete($id): bool
     {
 
-        $model = $this->findOrFail($id);
+        $object = $this->findOrFail($id);
 
-        return $model->delete();
-    }
-
-
-    /**
-     * Create a new instance of the model's query builder.
-     *
-     * @return $this
-     */
-    protected function newQuery()
-    {
-        $this->query = QueryBuilder::for($this->model());
-
-        return $this;
+        return $object->delete();
     }
 }
