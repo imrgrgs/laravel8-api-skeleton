@@ -68,7 +68,7 @@ class LaratrustSeeder extends Seeder
 
 
         // Create a new role
-        $this->command->info('Creating Role ' . strtoupper('superadmin'));
+       
 
         $rolesId = [];
         foreach ($roles as $role) {
