@@ -57,13 +57,34 @@ Route::group($auth, function () {
     Route::post('me', ['as' => 'me', 'uses' => 'AuthController@me',]);
 }); // end group auth
 
+
+/**
+ * Params group routes access
+ */
+$params = [
+    'prefix' => 'params',
+    'domain' => '',
+    'middleware' => ['jwt.auth', 'localization'],
+    'as' => 'params.',
+    'namespace' => 'Params',
+];
+Route::group($params, function () {
+    Route::get('', ['as' => 'index', 'uses' => 'ParamAPIController@index',]);
+    Route::post('', ['as' => 'create', 'uses' => 'ParamAPIController@create',]);
+    Route::get('{id}', ['as' => 'show', 'uses' => 'ParamAPIController@show',]);
+    Route::put('{id}', ['as' => 'update', 'uses' => 'ParamAPIController@update',]);
+    Route::delete('{id}', ['as' => 'delete', 'uses' => 'ParamAPIController@destroy',]);
+}); // end group params
+
+
+
 /**
  * User group routes access
  */
 $user = [
     'prefix' => 'users',
     'domain' => '',
-    'middleware' => ['jwt.auth','localization'],
+    'middleware' => ['jwt.auth', 'localization'],
     'as' => 'users.',
     'namespace' => 'User',
 ];

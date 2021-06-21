@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\User;
 
 use Exception;
 use Carbon\Carbon;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Storage;
+
 
 class UserCreateService
 {
