@@ -21,6 +21,7 @@ class UserRepository extends BaseRepository
             'module',
             AllowedFilter::exact('id'),
             AllowedFilter::exact('active'),
+            AllowedFilter::exact('roles.name'),
 
         ];
     }
@@ -42,6 +43,7 @@ class UserRepository extends BaseRepository
             'active',
             'avatar',
             'module',
+            'roles.name', 'roles.id', 'roles.display_name',
         ];
     }
 

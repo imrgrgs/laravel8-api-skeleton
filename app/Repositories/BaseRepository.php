@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 abstract class BaseRepository
@@ -117,6 +118,17 @@ abstract class BaseRepository
         return $this->allQuery()->get($columns);
     }
 
+    public function allOrFail($skip = null, $limit = null, $columns = ['*'])
+    {
+
+        $objects=  $this->allQuery()->get($columns);
+        if (count($objects)) {
+            return $objects;
+        }
+
+        throw (new ModelNotFoundException)->setModel(get_class($this->model));
+    }
+
     /**
      * Create model record
      *
@@ -144,7 +156,7 @@ abstract class BaseRepository
     public function find($id, $columns = ['*'])
     {
 
-        return $this->query()->find($id, $columns);
+        return $this->allQuery()->find($id, $columns);
     }
 
     /**

@@ -103,7 +103,7 @@ class Handler extends ExceptionHandler
             $message = 'Token expired';
         }
         if ($exception instanceof ModelNotFoundException) {
-            $code = \Illuminate\Http\Response::HTTP_NOT_FOUND;
+            $code = 209; //\Illuminate\Http\Response::HTTP_NOT_FOUND;
 
             $model = __('models/' . strtolower(str_replace('App\\Models\\', '', Str::plural($exception->getModel()))) . '.singular');
             $message = __('messages.not_found', ['model' => ucwords($model)]);

@@ -241,7 +241,7 @@ class UserService
 
     public function query($skip, $limit)
     {
-        $users = $this->userRepository->all(
+        $users = $this->userRepository->allOrFail(
             $skip,
             $limit
         );

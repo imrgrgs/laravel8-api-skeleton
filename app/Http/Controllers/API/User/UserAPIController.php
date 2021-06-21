@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\API\User;
 
+
+use Illuminate\Http\Request;
 use App\Services\UserService;
+
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\API\APIController;
 use App\Http\Requests\API\ListUserAPIRequest;
 use App\Http\Resources\UserResourceCollection;
-use App\Http\Requests\API\RegisterUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\API\RegisterUserAPIRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class UserAPIController extends APIController
 {
@@ -26,7 +30,7 @@ class UserAPIController extends APIController
      */
     public function __construct()
     {
-        //$this->middleware('jwt.auth');
+
         $this->setServices();
     }
 
@@ -45,11 +49,14 @@ class UserAPIController extends APIController
             $request->get('skip'),
             $request->get('limit')
         );
-        if (!$users->count()) {
-            return $this->sendError(
-                __('messages.not_found', ['model' => __('models/users.plural')])
-            );
-        }
+
+        // if (!$users->count()) {
+        //     //  throw new ModelNotFoundException(__('messages.not_found', ['model' => __('models/users.plural')]), JsonResponse::HTTP_NO_CONTENT);
+
+        //     return $this->sendNoContent(
+        //         __('messages.not_found', ['model' => __('models/users.plural')])
+        //     );
+        // }
         return $this->sendResponse(
             new UserResourceCollection($users),
             __('messages.retrieved', ['model' => __('models/users.plural')])
