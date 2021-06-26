@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
         App::bind('paramserv', function () {
             return new \App\Services\ParamService;
         });
+        App::bind('user', function () {
+            return new \App\Services\UserService;
+        });
     }
 
     /**

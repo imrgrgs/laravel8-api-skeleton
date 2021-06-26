@@ -3,28 +3,21 @@
 namespace App\Http\Controllers\API\User;
 
 
+use App\Facades\UserService;
 use Illuminate\Http\Request;
-use App\Services\UserService;
-
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\API\APIController;
-use App\Http\Requests\API\DeleteUserAPIRequest;
 use App\Http\Requests\API\ListUserAPIRequest;
 use App\Http\Requests\API\ShowUserAPIRequest;
 use App\Http\Resources\UserResourceCollection;
+use App\Http\Requests\API\DeleteUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class UserAPIController extends APIController
 {
-    /**
-     * Undocumented variable
-     *
-     * @var UserService
-     */
-    private $userService;
+
     /**
      * Create a new AuthController instance.
      *
@@ -32,14 +25,9 @@ class UserAPIController extends APIController
      */
     public function __construct()
     {
-
-        $this->setServices();
     }
 
-    private function setServices()
-    {
-        $this->userService = new UserService();
-    }
+
     /**
      * List all auth users.
      *
@@ -47,18 +35,12 @@ class UserAPIController extends APIController
      */
     public function index(ListUserAPIRequest $request)
     {
-        $users = $this->userService->query(
+        $users = UserService::query(
             $request->get('skip'),
             $request->get('limit')
         );
 
-        // if (!$users->count()) {
-        //     //  throw new ModelNotFoundException(__('messages.not_found', ['model' => __('models/users.plural')]), JsonResponse::HTTP_NO_CONTENT);
 
-        //     return $this->sendNoContent(
-        //         __('messages.not_found', ['model' => __('models/users.plural')])
-        //     );
-        // }
         return $this->sendResponse(
             new UserResourceCollection($users),
             __('messages.retrieved', ['model' => __('models/users.plural')])
@@ -75,7 +57,7 @@ class UserAPIController extends APIController
         $input = $request->except(['avatar', 'roles']);
         $avatar = $request->file('avatar');
         $rolesToAttach = $request->get('roles');
-        $user = $this->userService->save($input, $rolesToAttach, $avatar);
+        $user = UserService::save($input, $rolesToAttach, $avatar);
 
         return $this->sendResponse(
             new UserResource($user),
@@ -92,7 +74,7 @@ class UserAPIController extends APIController
     public function show($id, ShowUserAPIRequest $request)
     {
         $input = $request->all();
-        $user = $this->userService->find($id);
+        $user = UserService::find($id);
 
         return $this->sendResponse(
             new UserResource($user),
@@ -113,7 +95,7 @@ class UserAPIController extends APIController
         $avatar = $request->file('avatar');
 
 
-        $user = $this->userService->update($id, $input, $avatar);
+        $user = UserService::update($id, $input, $avatar);
 
         return $this->sendResponse(
             new UserResource($user),
@@ -129,7 +111,7 @@ class UserAPIController extends APIController
      */
     public function changeActiveStatus($id, UpdateUserAPIRequest $request)
     {
-        $active = $this->userService->isActive($id);
+        $active = UserService::isActive($id);
         if ($active) {
             return $this->deactive($id, $request);
         } else {
@@ -143,7 +125,7 @@ class UserAPIController extends APIController
      */
     public function deactive($id, UpdateUserAPIRequest $request)
     {
-        $user = $this->userService->deactive($id);
+        $user = UserService::deactive($id);
         return $this->sendSuccess(
             __('auth.deactive_success')
         );
@@ -156,7 +138,7 @@ class UserAPIController extends APIController
      */
     public function active($id, UpdateUserAPIRequest $request)
     {
-        $user = $this->userService->active($id);
+        $user = UserService::active($id);
         return $this->sendSuccess(
             __('auth.active_success')
         );
@@ -167,9 +149,9 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteAvatar($id, DeleteUserAPIRequest $request)
+    public function deleteAvatar($id, UpdateUserAPIRequest $request)
     {
-        $user = $this->userService->deleteAvatar($id);
+        $user = UserService::deleteAvatar($id);
         return $this->sendSuccess(
             __('auth.avatar_success')
         );
@@ -180,10 +162,10 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeAvatar($id, Request $request)
+    public function changeAvatar($id, UpdateUserAPIRequest $request)
     {
         $avatar = $request->file('avatar');
-        $user = $this->userService->changeAvatar($id, $avatar);
+        $user = UserService::changeAvatar($id, $avatar);
         return $this->sendSuccess(
             __('auth.avatar_success')
         );
@@ -196,9 +178,9 @@ class UserAPIController extends APIController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id, DeleteUserAPIRequest $request)
     {
-        $qtdDel = $this->userService->delete($id);
+        $qtdDel = UserService::delete($id);
 
         return $this->sendSuccess(
             __('messages.deleted', ['model' => __('models/users.singular')])

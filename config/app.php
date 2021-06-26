@@ -240,6 +240,7 @@ return [
          */
         'TenantService' => App\Facades\TenantService::class,
         'ParamService' => App\Facades\ParamService::class,
+        'UserService' => App\Facades\UserService::class,
 
     ],
 
