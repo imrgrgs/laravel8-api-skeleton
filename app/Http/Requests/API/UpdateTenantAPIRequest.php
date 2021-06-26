@@ -2,13 +2,8 @@
 
 namespace App\Http\Requests\API;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
 
-
-
-
-class ListParamAPIRequest extends APIRequest
+class UpdateTenantAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +12,8 @@ class ListParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
-        $this->hasPermission('params-list');
+
+        $this->hasPermission('tenants-create');
         return true;
     }
 
@@ -29,7 +25,7 @@ class ListParamAPIRequest extends APIRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|min:3|max:128',
         ];
     }
 }

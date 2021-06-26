@@ -235,6 +235,12 @@ return [
          */
         'Image' => Intervention\Image\Facades\Image::class,
 
+        /*
+         * Application Service Providers...
+         */
+        'TenantService' => App\Facades\TenantService::class,
+        'ParamService' => App\Facades\ParamService::class,
+
     ],
 
 ];

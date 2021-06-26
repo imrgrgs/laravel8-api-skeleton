@@ -2,13 +2,9 @@
 
 namespace App\Http\Requests\API;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Foundation\Http\FormRequest;
 
-
-
-
-class ListParamAPIRequest extends APIRequest
+class DeleteUserAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +13,8 @@ class ListParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
-        $this->hasPermission('params-list');
+        $this->hasPermission('users-delete');
+
         return true;
     }
 

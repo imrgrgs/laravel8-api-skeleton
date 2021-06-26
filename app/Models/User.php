@@ -50,6 +50,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
+        'tenant_id',
         'name',
         'email',
         'password',
@@ -114,6 +115,25 @@ class User extends Authenticatable implements JWTSubject
       |-----------------------------------------------------------------------
       */
 
+    /*|-------------------------------------------------------
+      | Relationships
+      |-------------------------------------------------------
+      */
+
+      /**
+       * Undocumented function
+       *
+       * @return void
+       */
+    public function tenant()
+    {
+        return $this->belongsTo(\App\Models\Tenant::class, 'tenant_id', 'id');
+    }
+
+    /*|-----------------------------------------------------------------------
+      | END Relationships
+      |-----------------------------------------------------------------------
+      */
 
     /*|----------------------------------------------------------------------------
       | Json Web Token for API access
@@ -142,7 +162,6 @@ class User extends Authenticatable implements JWTSubject
     }
     /*|----------------------------------------------------------------------------
       | END Json Web Token for API access
-      | It is part of tymon/jwt-auth package
       |----------------------------------------------------------------------------
       */
 }

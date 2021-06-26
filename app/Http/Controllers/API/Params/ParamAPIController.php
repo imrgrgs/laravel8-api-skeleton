@@ -4,16 +4,17 @@ namespace App\Http\Controllers\API\Params;
 
 
 use Illuminate\Http\Request;
-use App\Services\ParamService;
+//use App\Services\ParamService;
+use App\Facades\ParamService;
 use App\Http\Resources\ParamResource;
 use App\Http\Controllers\API\APIController;
+use App\Http\Requests\API\DeleteParamAPIRequest;
 use App\Http\Requests\API\ListParamAPIRequest;
 use App\Http\Resources\ParamResourceCollection;
 use App\Http\Requests\API\UpdateParamAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
 use App\Http\Requests\API\RegisterParamAPIRequest;
-
-
+use App\Http\Requests\API\ShowParamAPIRequest;
 
 class ParamAPIController extends APIController
 {
@@ -22,7 +23,7 @@ class ParamAPIController extends APIController
      *
      * @var ParamService
      */
-    private $paramService;
+    //   private $paramService;
     /**
      * Create a new AuthController instance.
      *
@@ -30,14 +31,9 @@ class ParamAPIController extends APIController
      */
     public function __construct()
     {
-
-        $this->setServices();
     }
 
-    private function setServices()
-    {
-        $this->paramService = new ParamService();
-    }
+
     /**
      * List all .
      *
@@ -45,7 +41,7 @@ class ParamAPIController extends APIController
      */
     public function index(ListParamAPIRequest $request)
     {
-        $params = $this->paramService->query(
+        $params = ParamService::query(
             $request->get('skip'),
             $request->get('limit')
         );
@@ -68,7 +64,7 @@ class ParamAPIController extends APIController
 
         $displayNames = $request->get('display_names');
         $descriptions = $request->get('descriptions');
-        $param = $this->paramService->save($input, $displayNames, $descriptions);
+        $param = ParamService::save($input, $displayNames, $descriptions);
 
         return $this->sendResponse(
             new ParamResource($param),
@@ -79,13 +75,13 @@ class ParamAPIController extends APIController
     /**
      * show
      *
-     * @param RegisterUserAPIRequest $request
+     * @param ShowParamAPIRequest $request
      * @return Model
      */
-    public function show($id, Request $request)
+    public function show($id, ShowParamAPIRequest $request)
     {
         $input = $request->all();
-        $param = $this->paramService->find($id);
+        $param = ParamService::find($id);
 
         return $this->sendResponse(
             new ParamResource($param),
@@ -96,7 +92,7 @@ class ParamAPIController extends APIController
     /**
      * Update
      *
-     * @param RegisterUserAPIRequest $request
+     * @param UpdateParamAPIRequest $request
      * @return Model
      */
     public function update($id, UpdateParamAPIRequest $request)
@@ -108,7 +104,7 @@ class ParamAPIController extends APIController
         $descriptions = $request->get('descriptions');
 
 
-        $param = $this->paramService->update($id, $input, $displayNames, $descriptions);
+        $param = ParamService::update($id, $input, $displayNames, $descriptions);
 
         return $this->sendResponse(
             new ParamResource($param),
@@ -124,9 +120,9 @@ class ParamAPIController extends APIController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id, DeleteParamAPIRequest $request)
     {
-        $qtdDel = $this->paramService->delete($id);
+        $qtdDel = ParamService::delete($id);
 
         return $this->sendSuccess(
             __('messages.deleted', ['model' => __('models/users.singular')])

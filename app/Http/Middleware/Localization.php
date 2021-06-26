@@ -3,10 +3,11 @@
 namespace App\Http\Middleware;
 
 
-use App\Services\ParamService;
+
 use Closure;
 
 use App\Traits\ApiResponser;
+use App\Facades\ParamService;
 use Illuminate\Http\JsonResponse;
 
 

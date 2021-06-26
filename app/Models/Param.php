@@ -81,4 +81,8 @@ class Param extends ModelBase
     {
         return $this->hasMany(\App\Models\ParamValue::class, 'param_id', 'id');
     }
+    /*|-----------------------------------------------------------------------
+      | END Relationships
+      |-----------------------------------------------------------------------
+      */
 }

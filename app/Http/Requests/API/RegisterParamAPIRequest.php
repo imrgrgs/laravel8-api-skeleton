@@ -14,7 +14,7 @@ class RegisterParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
-        // $this->hasPermission('params-create');
+        $this->hasPermission('params-create');
         return true;
     }
 

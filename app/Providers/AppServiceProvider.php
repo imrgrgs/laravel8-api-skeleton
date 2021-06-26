@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        App::bind('tenant', function () {
+            return new \App\Services\TenantService;
+        });
+        App::bind('paramserv', function () {
+            return new \App\Services\ParamService;
+        });
     }
 
     /**

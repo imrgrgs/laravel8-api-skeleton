@@ -121,7 +121,7 @@ abstract class BaseRepository
     public function allOrFail($skip = null, $limit = null, $columns = ['*'])
     {
 
-        $objects=  $this->allQuery()->get($columns);
+        $objects =  $this->allQuery()->get($columns);
         if (count($objects)) {
             return $objects;
         }
@@ -144,6 +144,26 @@ abstract class BaseRepository
 
         return $object;
     }
+
+    /**
+     * Retry or Create model record
+     *
+     * @param array $input
+     *
+     * @return Model
+     */
+    public function firstOrCreate(array $key, array $input)
+    {
+        $object = $this->model::firstOrCreate(
+            $key,
+            $input,
+        );
+
+
+
+        return $object;
+    }
+
 
     /**
      * Find model record for given id

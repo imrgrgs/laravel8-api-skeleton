@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+
 use App\Models\Param;
+
 use App\Models\ParamDescription;
-use App\Models\ParamValue;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ParamRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -130,10 +131,10 @@ class ParamService
      * @param string $name a valid param name
      * @return Collection
      */
-    public static function getValuesByParamName(string $name): Collection
+    public function getValuesByParamName(string $name): Collection
     {
-        $param = self::getParamByName($name);
-        return self::getValuesParam($param);
+        $param = $this->getParamByName($name);
+        return $this->getValuesParam($param);
     }
 
     /**
@@ -143,10 +144,10 @@ class ParamService
      * @return array contains the code values Ex: ['code1', 'code2', ..., 'codeN']
      *
      */
-    public static function getValuesCodeByParamName(string $name): array
+    public function getValuesCodeByParamName(string $name): array
     {
-        $param = self::getParamByName($name);
-        $values = self::getValuesParam($param);
+        $param = $this->getParamByName($name);
+        $values = $this->getValuesParam($param);
         $codes = [];
         foreach ($values as $value) {
             $codes[] = $value->code;
@@ -160,9 +161,9 @@ class ParamService
      * @param string $name a param name
      * @return Param
      */
-    public static function getParamByName(string $name): Param
+    public function getParamByName(string $name)
     {
-        return Param::where('name', $name)->first();
+        return $this->paramRepository->getByColumn('name', $name);
     }
 
     /**
@@ -171,9 +172,9 @@ class ParamService
      * @param Bigint $id
      * @return Param an Param object
      */
-    public static function getParamById(int $id): Param
+    public function getParamById(int $id)
     {
-        return Param::where('id', $id)->first();
+        return $this->paramRepository->getByColumn('id', $id);
     }
 
     /**
@@ -182,8 +183,8 @@ class ParamService
      * @param Param $param a Param object
      * @return Collection containning paramvalue objects|null
      */
-    public static function getValuesParam(Param $param): Collection
+    public function getValuesParam(Param $param): Collection
     {
-        return ParamValue::where('param_id', $param->id)->get();
+        return $param->values;
     }
 }

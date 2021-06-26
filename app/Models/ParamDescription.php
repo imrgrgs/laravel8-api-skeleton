@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 
@@ -61,7 +61,13 @@ class ParamDescription extends ModelBase
       | Relationships
       |-------------------------------------------------------
       */
-    public function param()
+
+      /**
+       * Undocumented function
+       *
+       * @return BelongsTo
+       */
+    public function param() : BelongsTo
     {
         return $this->belongsTo(\App\Models\Param::class, 'param_id', 'id');
     }

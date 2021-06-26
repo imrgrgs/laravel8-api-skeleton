@@ -77,6 +77,23 @@ Route::group($params, function () {
 }); // end group params
 
 
+/**
+ * Tenants group routes
+ */
+$tenants = [
+    'prefix' => 'tenants',
+    'domain' => '',
+    'middleware' => ['jwt.auth', 'localization'],
+    'as' => 'tenants.',
+    'namespace' => 'Tenant',
+];
+Route::group($tenants, function () {
+    Route::get('', ['as' => 'index', 'uses' => 'TenantAPIController@index',]);
+    Route::post('', ['as' => 'create', 'uses' => 'TenantAPIController@create',]);
+    Route::get('{id}', ['as' => 'show', 'uses' => 'TenantAPIController@show',]);
+    Route::put('{id}', ['as' => 'update', 'uses' => 'TenantAPIController@update',]);
+    Route::delete('{id}', ['as' => 'delete', 'uses' => 'TenantAPIController@destroy',]);
+}); // end group tenants
 
 /**
  * User group routes access

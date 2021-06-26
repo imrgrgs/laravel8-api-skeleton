@@ -123,9 +123,9 @@ class Handler extends ExceptionHandler
             $code = \Illuminate\Http\Response::HTTP_NOT_FOUND;
         }
 
-        if ($code < 100 || $code >= 600) {
-            $code = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
-        }
+        // if ($code < 100 || $code >= 600) {
+        //     $code = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
+        // }
 
         if ($code > 499) {
             Log::critical($exception);

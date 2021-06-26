@@ -6,28 +6,28 @@ namespace App\Console\Commands;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
-class BioMakeRepository extends GeneratorCommand
+class BioMakeModel extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'bio:repository';
+    protected $name = 'bio:model';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new repository class';
+    protected $description = 'Create a new model class';
 
     /**
      * O tipo de classe sendo gerada.
      *
      * @var string
      */
-    protected $type = 'Repository';
+    protected $type = 'Model';
 
 
 
@@ -52,7 +52,7 @@ class BioMakeRepository extends GeneratorCommand
      */
     protected function getStub()
     {
-        return  app_path() . '/Console/Commands/Stubs/BIO/repository.stub';
+        return  app_path() . '/Console/Commands/Stubs/BIO/model.stub';
     }
     /**
      * Obtém o namespace padrão para a classe.
@@ -62,7 +62,7 @@ class BioMakeRepository extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\Repositories';
+        return $rootNamespace . '\Models';
     }
 
     /**

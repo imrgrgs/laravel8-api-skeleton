@@ -2,11 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Tenant extends ModelBase
+use Spatie\Translatable\HasTranslations;
+
+
+class GenericModel extends ModelBase
 {
-    use HasFactory;
+
+    use HasTranslations;
+
+    /**
+     * Defines wich attributes are translatable
+     *
+     * @var array
+     */
+
+    public $translatable = ['display_name'];
 
     /**
      * The attributes that are mass assignable.
@@ -14,9 +25,7 @@ class Tenant extends ModelBase
      * @var array
      */
     protected $fillable = [
-        'name',
-        'code',
-        'is_master',
+        //
     ];
 
     /**
@@ -34,7 +43,7 @@ class Tenant extends ModelBase
      * @var array
      */
     protected $casts = [
-        'is_master' => 'boolean',
+        //
     ];
 
 
@@ -46,26 +55,13 @@ class Tenant extends ModelBase
     protected $appends = [
         //
     ];
-    /*|-----------------------------------------------------------------------
-      | END Appends = calculated attributes
-      |-----------------------------------------------------------------------
-      */
 
 
     /*|-------------------------------------------------------
       | Relationships
       |-------------------------------------------------------*/
 
-
-    /**
-     * Return a collection of \App\Models\User
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|null
-     */
-    public function users()
-    {
-        return $this->hasMany(\App\Models\User::class, 'tenant_id', 'id');
-    }
+        //
     /*|-----------------------------------------------------------------------
       | END Relationships
       |-----------------------------------------------------------------------

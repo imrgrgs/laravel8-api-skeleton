@@ -8,7 +8,9 @@ use App\Services\UserService;
 
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\API\APIController;
+use App\Http\Requests\API\DeleteUserAPIRequest;
 use App\Http\Requests\API\ListUserAPIRequest;
+use App\Http\Requests\API\ShowUserAPIRequest;
 use App\Http\Resources\UserResourceCollection;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
@@ -84,10 +86,10 @@ class UserAPIController extends APIController
     /**
      * Update a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param ShowUserAPIRequest $request
      * @return Model
      */
-    public function show($id, Request $request)
+    public function show($id, ShowUserAPIRequest $request)
     {
         $input = $request->all();
         $user = $this->userService->find($id);
@@ -101,7 +103,7 @@ class UserAPIController extends APIController
     /**
      * Update a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param UpdateUserAPIRequest $request
      * @return Model
      */
     public function update($id, UpdateUserAPIRequest $request)
@@ -125,13 +127,13 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeActiveStatus($id)
+    public function changeActiveStatus($id, UpdateUserAPIRequest $request)
     {
         $active = $this->userService->isActive($id);
         if ($active) {
-            return $this->deactive($id);
+            return $this->deactive($id, $request);
         } else {
-            return $this->active($id);
+            return $this->active($id, $request);
         }
     }
     /**
@@ -139,7 +141,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deactive($id)
+    public function deactive($id, UpdateUserAPIRequest $request)
     {
         $user = $this->userService->deactive($id);
         return $this->sendSuccess(
@@ -152,7 +154,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function active($id)
+    public function active($id, UpdateUserAPIRequest $request)
     {
         $user = $this->userService->active($id);
         return $this->sendSuccess(
@@ -165,7 +167,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteAvatar($id)
+    public function deleteAvatar($id, DeleteUserAPIRequest $request)
     {
         $user = $this->userService->deleteAvatar($id);
         return $this->sendSuccess(

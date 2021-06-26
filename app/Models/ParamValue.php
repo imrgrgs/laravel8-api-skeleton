@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Translatable\HasTranslations;
 
 
@@ -69,12 +70,22 @@ class ParamValue extends ModelBase
       |-------------------------------------------------------
       */
 
-    public function param()
+      /**
+       * Undocumented function
+       *
+       * @return BelongsTo
+       */
+    public function param() : BelongsTo
     {
         return $this->belongsTo(\App\Models\Param::class, 'param_id', 'id');
     }
 
-    public function description()
+    /**
+     * Undocumented function
+     *
+     * @return HasOne
+     */
+    public function description() : HasOne
     {
         return $this->hasOne(\App\Models\ParamValueDescription::class, 'param_value_id', 'id');
     }

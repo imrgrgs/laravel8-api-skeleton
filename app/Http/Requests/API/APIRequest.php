@@ -26,8 +26,7 @@ class APIRequest extends FormRequest
     public function response(array $errors)
     {
         $message = __('messages.given_data_was_invalid');
-        $messages = implode(' ', Arr::flatten($errors));
-        return $this->sendError($message, 422, $errors);
+        return $this->sendErrorUnprocessable($errors, $message);
     }
 
     /**
@@ -43,7 +42,7 @@ class APIRequest extends FormRequest
         $errors = (new ValidationException($validator))->errors();
         $message = __('messages.given_data_was_invalid');
 
-        $response = $this->sendErrorUnprocessable($errors, $message, $code = JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        $response = $this->sendErrorUnprocessable($errors, $message);
 
         throw new HttpResponseException($response);
     }
