@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\User;
 
 
 use App\Facades\UserService;
-use Illuminate\Http\Request;
+
 use App\Http\Resources\UserResource;
 use App\Http\Controllers\API\APIController;
 use App\Http\Requests\API\ListUserAPIRequest;
@@ -105,7 +105,7 @@ class UserAPIController extends APIController
 
 
     /**
-     * Deactive an User.
+     * Deactive or Active an User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -118,6 +118,7 @@ class UserAPIController extends APIController
             return $this->active($id, $request);
         }
     }
+
     /**
      * Deactive an User.
      *
@@ -132,7 +133,7 @@ class UserAPIController extends APIController
     }
 
     /**
-     * Deactive an User.
+     * Active an User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -145,7 +146,7 @@ class UserAPIController extends APIController
     }
 
     /**
-     * Deactive an User.
+     * Delete an User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -158,7 +159,7 @@ class UserAPIController extends APIController
     }
 
     /**
-     * Deactive an User.
+     * Change avatar an User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -173,7 +174,7 @@ class UserAPIController extends APIController
 
 
     /**
-     * Update a new user
+     * Delete a new user
      *
      * @param int $id
      * @return \Illuminate\Http\JsonResponse

@@ -93,6 +93,8 @@ Route::group($tenants, function () {
     Route::get('{id}', ['as' => 'show', 'uses' => 'TenantAPIController@show',]);
     Route::put('{id}', ['as' => 'update', 'uses' => 'TenantAPIController@update',]);
     Route::delete('{id}', ['as' => 'delete', 'uses' => 'TenantAPIController@destroy',]);
+    Route::post('{id}/active', ['as' => 'active', 'uses' => 'TenantAPIController@active',]);
+    Route::post('{id}/deactive', ['as' => 'deactive', 'uses' => 'TenantAPIController@deactive',]);
 }); // end group tenants
 
 /**

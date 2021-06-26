@@ -124,4 +124,30 @@ class TenantAPIController extends APIController
             __('messages.deleted', ['model' => __('models/tenants.singular')])
         );
     }
+
+    /**
+     * Deactive an Tenant.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deactive($id, UpdateTenantAPIRequest $request)
+    {
+        $user = TenantService::deactive($id);
+        return $this->sendSuccess(
+            __('auth.deactive_success')
+        );
+    }
+
+    /**
+     * Active an Tenant.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function active($id, UpdateTenantAPIRequest $request)
+    {
+        $user = TenantService::active($id);
+        return $this->sendSuccess(
+            __('auth.active_success')
+        );
+    }
 }

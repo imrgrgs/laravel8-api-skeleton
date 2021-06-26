@@ -17,6 +17,7 @@ class Tenant extends ModelBase
         'name',
         'code',
         'is_master',
+        'is_active',
     ];
 
     /**
@@ -35,6 +36,7 @@ class Tenant extends ModelBase
      */
     protected $casts = [
         'is_master' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
 

@@ -3,11 +3,12 @@
 namespace App\Services;
 
 
-use App\Models\Tenant;
 
+
+use App\Models\Tenant;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\TenantRepository;
 use App\Services\Generator\HashCode;
+use App\Repositories\TenantRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 
@@ -150,5 +151,27 @@ class TenantService
     public static function getUsers(Tenant $object): Collection
     {
         return $object->users;
+    }
+
+    /**
+     * Turns 'true' active user
+     *
+     * @param int $id unique auto increment id
+     * @return Model user activeted
+     */
+    public function active($id)
+    {
+        return $this->update($id, ['is_active' => true]);
+    }
+
+    /**
+     * Turns 'false' active user
+     *
+     * @param int $id unique auto increment id
+     * @return Model user deactiveted
+     */
+    public function deactive($id)
+    {
+        return $this->update($id, ['is_active' => false]);
     }
 }
