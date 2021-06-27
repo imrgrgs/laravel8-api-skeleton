@@ -120,11 +120,11 @@ class User extends Authenticatable implements JWTSubject
       |-------------------------------------------------------
       */
 
-      /**
-       * Undocumented function
-       *
-       * @return void
-       */
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function tenant()
     {
         return $this->belongsTo(\App\Models\Tenant::class, 'tenant_id', 'id');

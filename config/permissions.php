@@ -28,6 +28,8 @@ return [
         'permissions',
         'roles',
         'users',
+        'params',
+        'tenants',
 
     ],
 
@@ -37,6 +39,8 @@ return [
             'users' => 'Users',
             'permissions' => 'Permissions',
             'roles' => 'Roles',
+            'tenants' => 'Tenants',
+            'params' => 'Parameters',
             'create' => 'Create',
             'read' => 'Read',
             'update' => 'Update',
@@ -56,6 +60,8 @@ return [
             'users' => 'Usuários',
             'permissions' => 'Permissões',
             'roles' => 'Papéis',
+            'tenants' => 'Locatários',
+            'params' => 'Parâmetros',
 
             'create' => 'Adicionar',
             'read' => 'Ler',
@@ -76,6 +82,8 @@ return [
             'users' => 'Usuarios',
             'permissions' => 'Permisos',
             'roles' => 'Roles',
+            'tenants' => 'Tenants',
+            'params' => 'Parameters',
 
             'create' => 'Crear',
             'read' => 'Ler',

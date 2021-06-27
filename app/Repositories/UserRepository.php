@@ -20,8 +20,12 @@ class UserRepository extends BaseRepository
             'email',
             'module',
             AllowedFilter::exact('id'),
+            AllowedFilter::exact('tenant_id'),
+
             AllowedFilter::exact('active'),
             AllowedFilter::exact('roles.name'),
+            AllowedFilter::exact('tenant.name'),
+
 
         ];
     }
@@ -30,7 +34,8 @@ class UserRepository extends BaseRepository
     {
         return [
             'roles',
-            'permissions'
+            'permissions',
+            'tenant'
         ];
     }
 
@@ -38,12 +43,14 @@ class UserRepository extends BaseRepository
     {
         return [
             'id',
+            'tenant_id',
             'name',
             'email',
             'active',
             'avatar',
             'module',
             'roles.name', 'roles.id', 'roles.display_name',
+            'tenant.name', 'tenant.id',
         ];
     }
 

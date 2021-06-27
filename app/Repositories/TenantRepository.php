@@ -17,8 +17,10 @@ class TenantRepository extends BaseRepository
     {
         return [
             AllowedFilter::exact('id'),
+            AllowedFilter::exact('is_active'),
 
             'name',
+            'users.name',
 
         ];
     }
@@ -35,6 +37,7 @@ class TenantRepository extends BaseRepository
         return [
             'id',
             'name',
+            'users.name', 'users.id', 'users.tenant_id',
 
         ];
     }

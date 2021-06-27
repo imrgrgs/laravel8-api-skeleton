@@ -26,7 +26,7 @@ class Tenant extends ModelBase
      * @var array
      */
     protected $hidden = [
-        //
+        'code',
     ];
 
     /**
