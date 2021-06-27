@@ -26,7 +26,7 @@ class RegisterParamAPIRequest extends APIRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:128',
+            'name' => 'required|min:3|max:128,unique:params,name',
         ];
     }
 }

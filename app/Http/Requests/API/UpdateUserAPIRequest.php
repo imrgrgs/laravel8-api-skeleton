@@ -26,11 +26,13 @@ class UpdateUserAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'sometimes|min:3|max:128',
             'email' => 'sometimes|email|unique:users,email',
             'password' => 'sometimes|min:8|max:32',
             'avatar' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ];
+        $rules['email'] = $rules['email'] . "," . $this->route("user_id");
+        return $rules;
     }
 }

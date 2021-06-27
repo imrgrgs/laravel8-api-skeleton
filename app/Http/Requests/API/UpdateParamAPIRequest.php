@@ -25,8 +25,10 @@ class UpdateParamAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required|min:3|max:128',
+        $rules = [
+            'name' => 'sometimes|min:3|max:128,unique:params,name',
         ];
+        $rules['name'] = $rules['name'] . "," . $this->route("param_id");
+        return $rules;
     }
 }
