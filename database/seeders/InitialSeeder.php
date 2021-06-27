@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Facades\TenantFacades;
+use App\Facades\TenantService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Services\Generator\HashCode;
@@ -121,11 +122,12 @@ class InitialSeeder extends Seeder
 
     public function createTenant()
     {
-        $tenant = TenantFacades::firstOrCreate(
+        $tenant = TenantService::firstOrCreate(
             ['name' => 'Master Tenant'],
             [
                 'code' => HashCode::make(),
                 'is_master' => true,
+                'is_active' => true,
             ]
         );
 
