@@ -14,6 +14,7 @@ class UpdateParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('params-update');
         return true;
     }

@@ -14,7 +14,7 @@ class UpdateUserAPIRequest extends APIRequest
      */
     public function authorize()
     {
-
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('users-update');
         return true;
     }

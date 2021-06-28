@@ -78,6 +78,7 @@ class Handler extends ExceptionHandler
     public function handleException($request, Throwable $exception)
     {
 
+
         $code = $exception->getCode();
         $message = $exception->getMessage();
         $data = [];
@@ -113,6 +114,11 @@ class Handler extends ExceptionHandler
             $code = \Illuminate\Http\Response::HTTP_METHOD_NOT_ALLOWED;
         }
 
+        if ($exception instanceof NotHasRoleException) {
+            $code = \Illuminate\Http\Response::HTTP_FORBIDDEN;
+        }
+
+
 
         if ($exception instanceof NotFoundHttpException) {
             $code = \Illuminate\Http\Response::HTTP_NOT_FOUND;
@@ -123,9 +129,9 @@ class Handler extends ExceptionHandler
             $code = \Illuminate\Http\Response::HTTP_NOT_FOUND;
         }
 
-        // if ($code < 100 || $code >= 600) {
-        //     $code = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
-        // }
+        if ($code < 100 || $code >= 600) {
+            $code = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
+        }
 
         if ($code > 499) {
             Log::critical($exception);

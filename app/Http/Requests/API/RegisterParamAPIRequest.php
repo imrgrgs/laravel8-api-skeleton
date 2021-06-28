@@ -14,6 +14,7 @@ class RegisterParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('params-create');
         return true;
     }

@@ -12,8 +12,8 @@ class UpdateTenantAPIRequest extends APIRequest
      */
     public function authorize()
     {
-
-        $this->hasPermission('tenants-create');
+        $this->hasRole('superadmin|admin');
+        $this->hasPermission('tenants-update');
         return true;
     }
 

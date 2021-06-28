@@ -13,6 +13,7 @@ class DeleteParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('params-delete');
 
         return true;

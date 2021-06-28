@@ -11,6 +11,7 @@ class ListUserAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('users-list');
         return true;
     }

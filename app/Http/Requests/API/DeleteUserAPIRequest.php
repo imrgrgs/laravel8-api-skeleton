@@ -13,6 +13,7 @@ class DeleteUserAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('users-delete');
 
         return true;

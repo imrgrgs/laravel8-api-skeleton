@@ -13,6 +13,7 @@ class ShowTenantAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('tenants-read');
         return true;
     }

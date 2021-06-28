@@ -17,6 +17,7 @@ class ListParamAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('params-list');
         return true;
     }

@@ -14,6 +14,7 @@ class RegisterUserAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('users-create');
         return true;
     }

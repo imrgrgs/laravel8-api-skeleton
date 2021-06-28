@@ -12,6 +12,7 @@ class ListTenantAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('tenants-list');
 
         return true;

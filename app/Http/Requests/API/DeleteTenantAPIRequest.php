@@ -12,6 +12,7 @@ class DeleteTenantAPIRequest extends APIRequest
      */
     public function authorize()
     {
+        $this->hasRole('superadmin|admin');
         $this->hasPermission('tenants-delete');
 
         return true;
