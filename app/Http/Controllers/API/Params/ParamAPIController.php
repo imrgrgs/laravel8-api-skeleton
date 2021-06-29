@@ -60,11 +60,12 @@ class ParamAPIController extends APIController
      */
     public function create(RegisterParamAPIRequest $request)
     {
-        $input = $request->except(['display_names', 'descriptions']);
+        $input = $request->except(['display_names', 'descriptions', 'values']);
 
         $displayNames = $request->get('display_names');
         $descriptions = $request->get('descriptions');
-        $param = ParamService::save($input, $displayNames, $descriptions);
+        $values = $request->get('values');
+        $param = ParamService::save($input, $displayNames, $descriptions, $values);
 
         return $this->sendResponse(
             new ParamResource($param),
@@ -108,7 +109,7 @@ class ParamAPIController extends APIController
 
         return $this->sendResponse(
             new ParamResource($param),
-            __('messages.saved', ['model' => __('models/users.singular')])
+            __('messages.saved', ['model' => __('models/params.singular')])
         );
     }
 
@@ -125,7 +126,39 @@ class ParamAPIController extends APIController
         $qtdDel = ParamService::delete($id);
 
         return $this->sendSuccess(
-            __('messages.deleted', ['model' => __('models/users.singular')])
+            __('messages.deleted', ['model' => __('models/params.singular')])
+        );
+    }
+
+    /**
+     * get a param description
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function description($id)
+    {
+        $description = ParamService::getDescription($id);
+
+        return $this->sendResponse(
+            new ParamResource($description),
+            __('messages.retrieved', ['model' => __('models/params.singular')])
+        );
+    }
+
+    /**
+     * get a param description
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listValues($id)
+    {
+        $description = ParamService::getValuesParam($id);
+
+        return $this->sendResponse(
+            new ParamResource($description),
+            __('messages.retrieved', ['model' => __('models/params.singular')])
         );
     }
 }

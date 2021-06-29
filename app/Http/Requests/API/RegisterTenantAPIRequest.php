@@ -21,13 +21,13 @@ class RegisterTenantAPIRequest extends APIRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     *Active
      * @return array
      */
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:128,unique:tenants,name',
+            'name' => 'required|min:3|max:128|unique:tenants,name',
         ];
     }
 }

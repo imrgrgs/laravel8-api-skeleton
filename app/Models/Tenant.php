@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tenant extends ModelBase
 {
     use HasFactory;
+
+
+    use CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['users'];
 
     /**
      * The attributes that are mass assignable.

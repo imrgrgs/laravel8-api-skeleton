@@ -74,6 +74,9 @@ Route::group($params, function () {
     Route::get('{param_id}', ['as' => 'show', 'uses' => 'ParamAPIController@show',]);
     Route::put('{param_id}', ['as' => 'update', 'uses' => 'ParamAPIController@update',]);
     Route::delete('{param_id}', ['as' => 'delete', 'uses' => 'ParamAPIController@destroy',]);
+    Route::get('{param_id}/description', ['as' => 'description', 'uses' => 'ParamAPIController@description',]);
+
+    Route::get('{param_id}/values', ['as' => 'list.values', 'uses' => 'ParamAPIController@listValues',]);
 }); // end group params
 
 

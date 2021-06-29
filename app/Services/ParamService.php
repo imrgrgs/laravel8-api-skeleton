@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\Param;
 
 use App\Models\ParamDescription;
+use App\Models\ParamValue;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ParamRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,21 +39,11 @@ class ParamService
      * @param Array $input
      * @return app/Models/Param a new param saved
      */
-    public function save(array $input, array $displayNames = null, array $descriptions = null)
+    public function save(array $input, array $displayNames = null, array $descriptions = null, array $values = null)
     {
-        $displayName = [];
-        $description = [];
-        if ($displayNames) {
-            foreach ($displayNames as $key => $value) {
-                $displayName[] = [$key => $value];
-            }
-        }
-        if ($descriptions) {
-            foreach ($descriptions as $key => $value) {
-                $description[] = [$key => $value];
-            }
-        }
-
+        $displayName = $this->prepareParamDisplayName($displayNames);
+        $description = $this->prepareParamDescription($descriptions);
+        $paramValues = $this->prepareParamValues($values);
 
         DB::beginTransaction();
         if (!$displayName) {
@@ -62,13 +53,14 @@ class ParamService
             'name' => ucwords($input['name']),
             'display_name' => $displayName,
         ]);
+
         if ($description) {
-            ParamDescription::create([
-                'param_id' => $param->id,
-                'description' => $description
-            ]);
+            $param->description()->create(['description' => $description]);
         }
 
+        if ($paramValues) {
+            $param->values()->createMany($paramValues);
+        }
         DB::commit();
         return $param;
     }
@@ -134,7 +126,7 @@ class ParamService
     public function getValuesByParamName(string $name): Collection
     {
         $param = $this->getParamByName($name);
-        return $this->getValuesParam($param);
+        return $this->getValuesParam($param->id);
     }
 
     /**
@@ -147,7 +139,7 @@ class ParamService
     public function getValuesCodeByParamName(string $name): array
     {
         $param = $this->getParamByName($name);
-        $values = $this->getValuesParam($param);
+        $values = $this->getValuesParam($param->id);
         $codes = [];
         foreach ($values as $value) {
             $codes[] = $value->code;
@@ -183,8 +175,67 @@ class ParamService
      * @param Param $param a Param object
      * @return Collection containning paramvalue objects|null
      */
-    public function getValuesParam(Param $param): Collection
+    public function getValuesParam($id): Collection
     {
+        $param = $this->paramRepository->getByColumnOrFail('id', $id);
         return $param->values;
+    }
+
+    /**
+     * returns a ParamValue object colletion
+     *
+     * @param Param $param a Param object
+     * @return Collection containning paramvalue objects|null
+     */
+    public function getDescription(int $id)
+    {
+        $param = $this->paramRepository->getByColumnOrFail('id', $id);
+        return $param->description;
+    }
+
+    private function prepareParamValues(array $values = [])
+    {
+        $paramValues = [];
+        if ($values) {
+            foreach ($values as $paramValue) {
+                $paramValueNames = [];
+                foreach ($paramValue['names'] as $key => $name) {
+                    $paramValueNames[] = [$key => $name];
+                }
+                $paramValues[] = [
+                    'code' => $paramValue['code'],
+                    'name' => $paramValueNames,
+                    'symbol' => $paramValue['symbol'],
+                    'color' => $paramValue['color'],
+                    'is_visible' => $paramValue['is_visible'],
+                    'is_default' => $paramValue['is_default'],
+                ];
+            }
+        }
+        return $paramValues;
+    }
+
+    private function prepareParamDescription(array $descriptions = [])
+    {
+        $description = [];
+
+        if ($descriptions) {
+            foreach ($descriptions as $key => $value) {
+                $description[] = [$key => $value];
+            }
+        }
+        return $description;
+    }
+
+    private function prepareParamDisplayName(array $displayNames = [])
+    {
+        $displayName = [];
+
+        if ($displayNames) {
+            foreach ($displayNames as $key => $value) {
+                $displayName[] = [$key => $value];
+            }
+        }
+        return $displayName;
     }
 }

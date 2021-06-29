@@ -52,7 +52,7 @@ class CreateParamTable extends Migration
         });
 
         // Create table for values params descriptions
-        Schema::create('param_values_descriptions', function (Blueprint $table) {
+        Schema::create('param_value_descriptions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('param_value_id');
             $table->longText('description')->nullable();
@@ -73,7 +73,7 @@ class CreateParamTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('param_values_descriptions');
+        Schema::dropIfExists('param_value_descriptions');
         Schema::dropIfExists('param_values');
         Schema::dropIfExists('param_descriptions');
         Schema::dropIfExists('params');

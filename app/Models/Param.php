@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Traits\CascadeSoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 
@@ -11,6 +12,7 @@ class Param extends ModelBase
 
     use HasTranslations;
 
+
     /**
      * Defines wich attributes are translatable
      *
@@ -18,6 +20,10 @@ class Param extends ModelBase
      */
 
     public $translatable = ['display_name'];
+
+    use CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['description', 'values'];
 
     /**
      * The attributes that are mass assignable.

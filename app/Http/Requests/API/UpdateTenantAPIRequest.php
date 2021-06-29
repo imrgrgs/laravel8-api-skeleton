@@ -25,7 +25,7 @@ class UpdateTenantAPIRequest extends APIRequest
     public function rules()
     {
         $rules = [
-            'name' => 'sometimes|min:3|max:128,unique:tenants,name',
+            'name' => 'sometimes|min:3|max:128|unique:tenants,name',
         ];
         $rules['name'] = $rules['name'] . "," . $this->route("tenant_id");
         return $rules;

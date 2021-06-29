@@ -28,8 +28,13 @@ class ParamLocaleSeeder extends Seeder
                 'display_name' => $displayName,
             ]
         );
+        \App\Models\ParamDescription::firstOrCreate(
+            ['param_id' => $param->id],
+            [
+                'description' => $displayName,
+            ]
+        );
 
-       
         $codes = ['en', 'pt-BR', 'es'];
         $displayName['en'] = [
             ['en' => 'English'],
@@ -58,6 +63,12 @@ class ParamLocaleSeeder extends Seeder
                     'color' => null,
                     'is_visible' => true,
                     'is_default' => false,
+                ]
+            );
+            \App\Models\ParamValueDescription::firstOrCreate(
+                ['param_value_id' => $paramValue->id],
+                [
+                    'description' => $displayName[$code],
                 ]
             );
         }
