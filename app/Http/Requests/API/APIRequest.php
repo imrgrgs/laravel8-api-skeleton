@@ -12,6 +12,9 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+/**
+ * Form request base class
+ */
 class APIRequest extends FormRequest
 {
     use ApiResponser;
