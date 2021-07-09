@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use Exception;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Services\UserService;
+use App\Facades\UserService as FacadesUserService;
+
+
+
 use App\Http\Resources\UserResource;
-use App\Repositories\UserRepository;
-use Tymon\JWTAuth\Exceptions\JWTException;
+
 use App\Http\Controllers\API\APIController;
-use App\Http\Requests\API\ListUserAPIRequest;
-use App\Http\Requests\API\LoginUserAPIRequest;
-use App\Http\Resources\UserResourceCollection;
-use App\Http\Requests\API\RegisterUserAPIRequest;
+
+use App\Http\Requests\API\LoginRequest;
+
+
 
 class AuthController extends APIController
 {
@@ -31,14 +30,13 @@ class AuthController extends APIController
     public function __construct()
     {
         $this->middleware('jwt.auth', ['except' => ['login']]);
-        $this->setServices();
     }
 
 
     /**
      * Register a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param LoginRequest $request
      * @return Model
      */
 
@@ -47,7 +45,7 @@ class AuthController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginUserAPIRequest $request)
+    public function login(LoginRequest $request)
     {
         $credentials = request(['email', 'password']);
         if (!$token = auth()->attempt($credentials)) {
@@ -72,7 +70,7 @@ class AuthController extends APIController
      */
     public function me()
     {
-        $user =  $this->userService->profile();
+        $user =  FacadesUserService::profile();
         if (!$user) {
             return $this->sendError(
                 __('auth.unauthorized')
@@ -126,15 +124,5 @@ class AuthController extends APIController
             ]),
             __('messages.retrieved', ['model' => __('models/users.singular')])
         );
-    }
-
-    /**
-     * Starts and creates services class
-     *
-     * @return void
-     */
-    private function setServices()
-    {
-        $this->userService = new UserService();
     }
 }

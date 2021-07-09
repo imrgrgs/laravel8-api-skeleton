@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 //use App\Services\ParamService;
 use App\Facades\ParamService;
 use App\Http\Resources\ParamResource;
+use App\Http\Requests\API\ParamRequest;
 use App\Http\Controllers\API\APIController;
-use App\Http\Requests\API\DeleteParamAPIRequest;
 use App\Http\Requests\API\ListParamAPIRequest;
+use App\Http\Requests\API\ShowParamAPIRequest;
 use App\Http\Resources\ParamResourceCollection;
+use App\Http\Requests\API\DeleteParamAPIRequest;
 use App\Http\Requests\API\UpdateParamAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
 use App\Http\Requests\API\RegisterParamAPIRequest;
-use App\Http\Requests\API\ShowParamAPIRequest;
 
 class ParamAPIController extends APIController
 {
@@ -39,7 +40,7 @@ class ParamAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ListParamAPIRequest $request)
+    public function index(ParamRequest $request)
     {
         $params = ParamService::query(
             $request->get('skip'),
@@ -55,10 +56,10 @@ class ParamAPIController extends APIController
     /**
      * Register a new
      *
-     * @param RegisterParamAPIRequest $request
+     * @param ParamRequest $request
      * @return Model
      */
-    public function create(RegisterParamAPIRequest $request)
+    public function create(ParamRequest $request)
     {
         $input = $request->except(['display_names', 'descriptions', 'values']);
 
@@ -76,10 +77,10 @@ class ParamAPIController extends APIController
     /**
      * show
      *
-     * @param ShowParamAPIRequest $request
+     * @param ParamRequest $request
      * @return Model
      */
-    public function show($id, ShowParamAPIRequest $request)
+    public function show($id, ParamRequest $request)
     {
         $input = $request->all();
         $param = ParamService::find($id);
@@ -93,10 +94,10 @@ class ParamAPIController extends APIController
     /**
      * Update
      *
-     * @param UpdateParamAPIRequest $request
+     * @param ParamRequest $request
      * @return Model
      */
-    public function update($id, UpdateParamAPIRequest $request)
+    public function update($id, ParamRequest $request)
     {
 
         $input = $request->except(['display_names', 'descriptions']);
@@ -121,7 +122,7 @@ class ParamAPIController extends APIController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id, DeleteParamAPIRequest $request)
+    public function destroy($id, ParamRequest $request)
     {
         $qtdDel = ParamService::delete($id);
 
@@ -138,10 +139,10 @@ class ParamAPIController extends APIController
      */
     public function description($id)
     {
-        $description = ParamService::getDescription($id);
+        $paramDescription = ParamService::getDescription($id);
 
         return $this->sendResponse(
-            new ParamResource($description),
+            new ParamResource($paramDescription),
             __('messages.retrieved', ['model' => __('models/params.singular')])
         );
     }
@@ -154,10 +155,10 @@ class ParamAPIController extends APIController
      */
     public function listValues($id)
     {
-        $description = ParamService::getValuesParam($id);
+        $paramValues = ParamService::getValuesParam($id);
 
         return $this->sendResponse(
-            new ParamResource($description),
+            new ParamResource($paramValues),
             __('messages.retrieved', ['model' => __('models/params.singular')])
         );
     }

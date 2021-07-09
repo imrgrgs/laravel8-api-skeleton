@@ -1,19 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits;
 
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
-class ModelBase extends Model
+trait ApiLogsActivity
 {
-    use HasFactory;
-    use LogsActivity;
-    use SoftDeletes;
-
     /**
      * All fillable attributes will be logged
      *

@@ -96,8 +96,8 @@ Route::group($tenants, function () {
     Route::get('{tenant_id}', ['as' => 'show', 'uses' => 'TenantAPIController@show',]);
     Route::put('{tenant_id}', ['as' => 'update', 'uses' => 'TenantAPIController@update',]);
     Route::delete('{tenant_id}', ['as' => 'delete', 'uses' => 'TenantAPIController@destroy',]);
-    Route::post('{tenant_id}/active', ['as' => 'active', 'uses' => 'TenantAPIController@active',]);
-    Route::post('{tenant_id}/deactive', ['as' => 'deactive', 'uses' => 'TenantAPIController@deactive',]);
+    Route::put('{tenant_id}/active', ['as' => 'active', 'uses' => 'TenantAPIController@active',]);
+    Route::put('{tenant_id}/deactive', ['as' => 'deactive', 'uses' => 'TenantAPIController@deactive',]);
 }); // end group tenants
 
 /**
@@ -116,10 +116,10 @@ Route::group($user, function () {
     Route::get('{user_id}', ['as' => 'show', 'uses' => 'UserAPIController@show',]);
     Route::put('{user_id}', ['as' => 'update', 'uses' => 'UserAPIController@update',]);
     Route::delete('{user_id}', ['as' => 'delete', 'uses' => 'UserAPIController@destroy',]);
-    Route::post('{user_id}/change-active-status', ['as' => 'change.active.status', 'uses' => 'UserAPIController@changeActiveStatus',]);
-    Route::post('{user_id}/active', ['as' => 'active', 'uses' => 'UserAPIController@active',]);
-    Route::post('{user_id}/deactive', ['as' => 'deactive', 'uses' => 'UserAPIController@deactive',]);
-    Route::post('{user_id}/change-avatar', ['as' => 'change.avatar', 'uses' => 'UserAPIController@changeAvatar',]);
+    Route::put('{user_id}/change-active-status', ['as' => 'change.active.status', 'uses' => 'UserAPIController@changeActiveStatus',]);
+    Route::put('{user_id}/active', ['as' => 'active', 'uses' => 'UserAPIController@active',]);
+    Route::put('{user_id}/deactive', ['as' => 'deactive', 'uses' => 'UserAPIController@deactive',]);
+    Route::put('{user_id}/change-avatar', ['as' => 'change.avatar', 'uses' => 'UserAPIController@changeAvatar',]);
 }); // end group user
 
 

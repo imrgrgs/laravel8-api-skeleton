@@ -13,7 +13,7 @@ use App\Http\Resources\UserResourceCollection;
 use App\Http\Requests\API\DeleteUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
-
+use App\Http\Requests\API\UserRequest;
 
 class UserAPIController extends APIController
 {
@@ -33,7 +33,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ListUserAPIRequest $request)
+    public function index(UserRequest $request)
     {
         $users = UserService::query(
             $request->get('skip'),
@@ -49,10 +49,10 @@ class UserAPIController extends APIController
     /**
      * Register a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param UserRequest $request
      * @return Model
      */
-    public function create(RegisterUserAPIRequest $request)
+    public function create(UserRequest $request)
     {
         $input = $request->except(['avatar', 'roles']);
         $avatar = $request->file('avatar');
@@ -68,10 +68,10 @@ class UserAPIController extends APIController
     /**
      * Update a new user
      *
-     * @param ShowUserAPIRequest $request
+     * @param UserRequest $request
      * @return Model
      */
-    public function show($id, ShowUserAPIRequest $request)
+    public function show($id, UserRequest $request)
     {
         $input = $request->all();
         $user = UserService::find($id);
@@ -85,10 +85,10 @@ class UserAPIController extends APIController
     /**
      * Update a new user
      *
-     * @param UpdateUserAPIRequest $request
+     * @param UserRequest $request
      * @return Model
      */
-    public function update($id, UpdateUserAPIRequest $request)
+    public function update($id, UserRequest $request)
     {
 
         $input = $request->except('avatar');
@@ -109,7 +109,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeActiveStatus($id, UpdateUserAPIRequest $request)
+    public function changeActiveStatus($id, UserRequest $request)
     {
         $active = UserService::isActive($id);
         if ($active) {
@@ -124,7 +124,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deactive($id, UpdateUserAPIRequest $request)
+    public function deactive($id, UserRequest $request)
     {
         $user = UserService::deactive($id);
         return $this->sendSuccess(
@@ -137,7 +137,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function active($id, UpdateUserAPIRequest $request)
+    public function active($id, UserRequest $request)
     {
         $user = UserService::active($id);
         return $this->sendSuccess(
@@ -150,7 +150,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteAvatar($id, UpdateUserAPIRequest $request)
+    public function deleteAvatar($id, UserRequest $request)
     {
         $user = UserService::deleteAvatar($id);
         return $this->sendSuccess(
@@ -163,7 +163,7 @@ class UserAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeAvatar($id, UpdateUserAPIRequest $request)
+    public function changeAvatar($id, UserRequest $request)
     {
         $avatar = $request->file('avatar');
         $user = UserService::changeAvatar($id, $avatar);
@@ -179,7 +179,7 @@ class UserAPIController extends APIController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id, DeleteUserAPIRequest $request)
+    public function destroy($id, UserRequest $request)
     {
         $qtdDel = UserService::delete($id);
 

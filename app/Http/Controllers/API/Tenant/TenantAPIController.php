@@ -9,15 +9,11 @@ use Illuminate\Http\Request;
 
 use App\Facades\TenantService;
 use App\Http\Resources\TenantResource;
+use App\Http\Requests\API\TenantRequest;
 use App\Http\Controllers\API\APIController;
-use App\Http\Requests\API\ListTenantAPIRequest;
-use App\Http\Requests\API\ShowTenantAPIRequest;
 
 use App\Http\Resources\TenantResourceCollection;
-use App\Http\Requests\API\DeleteTenantAPIRequest;
-use App\Http\Requests\API\RegisterUserAPIRequest;
-use App\Http\Requests\API\UpdateTenantAPIRequest;
-use App\Http\Requests\API\RegisterTenantAPIRequest;
+
 
 
 
@@ -39,7 +35,7 @@ class TenantAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ListTenantAPIRequest $request)
+    public function index(TenantRequest $request)
     {
         $users = TenantService::query(
             $request->get('skip'),
@@ -55,10 +51,10 @@ class TenantAPIController extends APIController
     /**
      * Register a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param TenantRequest $request
      * @return Model
      */
-    public function create(RegisterTenantAPIRequest $request)
+    public function create(TenantRequest $request)
     {
         $input = $request->all();
 
@@ -73,10 +69,10 @@ class TenantAPIController extends APIController
     /**
      * Update a new user
      *
-     * @param RegisterUserAPIRequest $request
+     * @param TenantRequest $request
      * @return Model
      */
-    public function show($id, ShowTenantAPIRequest $request)
+    public function show($id, TenantRequest $request)
     {
         $input = $request->all();
         $user = TenantService::find($id);
@@ -93,7 +89,7 @@ class TenantAPIController extends APIController
      * @param Request $request
      * @return Model
      */
-    public function update($id, UpdateTenantAPIRequest $request)
+    public function update($id, TenantRequest $request)
     {
 
         $input = $request->all();
@@ -116,7 +112,7 @@ class TenantAPIController extends APIController
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id, DeleteTenantAPIRequest $request)
+    public function destroy($id, TenantRequest $request)
     {
         $qtdDel = TenantService::delete($id);
 
@@ -130,7 +126,7 @@ class TenantAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deactive($id, UpdateTenantAPIRequest $request)
+    public function deactive($id, TenantRequest $request)
     {
         $user = TenantService::deactive($id);
         return $this->sendSuccess(
@@ -143,7 +139,7 @@ class TenantAPIController extends APIController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function active($id, UpdateTenantAPIRequest $request)
+    public function active($id, TenantRequest $request)
     {
         $user = TenantService::active($id);
         return $this->sendSuccess(

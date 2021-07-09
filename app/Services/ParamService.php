@@ -5,8 +5,6 @@ namespace App\Services;
 
 use App\Models\Param;
 
-use App\Models\ParamDescription;
-use App\Models\ParamValue;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ParamRepository;
 use Illuminate\Database\Eloquent\Collection;

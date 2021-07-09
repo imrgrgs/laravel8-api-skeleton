@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -22,12 +23,14 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     use LogsActivity;
+
     /**
      * All fillable attributes will be logged
      *
      * @var boolean
      */
     static $logFillable = true;
+
 
     /**
      * to log every attribute in your $logAttributes variable,
@@ -43,6 +46,16 @@ class User extends Authenticatable implements JWTSubject
      * @var boolean
      */
     protected static $submitEmptyLogs = false;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "A " . $this->table . " record has been {$eventName}";
+    }
+
+    public function getLogNameToUse(string $eventName)
+    {
+        return $this->table;
+    }
 
     /**
      * The attributes that are mass assignable.
