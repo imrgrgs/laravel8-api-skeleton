@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\API\Auth;
 
-use App\Facades\UserService as FacadesUserService;
-
-
-
 use App\Http\Resources\UserResource;
 
-use App\Http\Controllers\API\APIController;
+
+
+use App\Http\Resources\LoginResource;
 
 use App\Http\Requests\API\LoginRequest;
+
+use App\Http\Controllers\API\APIController;
+use App\Facades\UserService as FacadesUserService;
 
 
 
@@ -115,14 +116,27 @@ class AuthController extends APIController
      */
     protected function respondWithToken($token)
     {
+        $userLogged = auth()->user();
+
+
+        $userLogged->access_token = $token;
+        $userLogged->token_type = 'bearer';
+        $userLogged->expires_in = auth()->factory()->getTTL() * 60;
+
+
+
         return $this->sendResponse(
-            new UserResource([
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60,
-                'user' => auth()->user(),
-            ]),
+            new LoginResource($userLogged),
             __('messages.retrieved', ['model' => __('models/users.singular')])
         );
+        // return $this->sendResponse(
+        //     new UserResource([
+        //         'access_token' => $token,
+        //         'token_type' => 'bearer',
+        //         'expires_in' => auth()->factory()->getTTL() * 60,
+        //         'user' => auth()->user(),
+        //     ]),
+        //     __('messages.retrieved', ['model' => __('models/users.singular')])
+        // );
     }
 }
