@@ -15,7 +15,6 @@ class UserRequest extends APIRequest
     {
         $this->hasRole('superadmin|admin');
         $this->hasPermission('users-read');
-
         return [
             //
         ];

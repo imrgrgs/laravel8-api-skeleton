@@ -39,6 +39,7 @@ class APIRequest extends FormRequest
      */
     public function rules()
     {
+        // php 8.0
         // return match($this->method()){
         //     'POST' => $this->store(),
         //     'PUT', 'PATCH' => $this->update(),

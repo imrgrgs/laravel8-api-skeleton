@@ -35,6 +35,7 @@ class UserAPIController extends APIController
      */
     public function index(UserRequest $request)
     {
+
         $users = UserService::query(
             $request->get('skip'),
             $request->get('limit')
@@ -73,7 +74,7 @@ class UserAPIController extends APIController
      */
     public function show($id, UserRequest $request)
     {
-        $input = $request->all();
+
         $user = UserService::find($id);
 
         return $this->sendResponse(
