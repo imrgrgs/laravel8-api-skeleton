@@ -34,6 +34,5 @@ class LoginResource extends JsonResource
             ]
 
         ];
-        //       return parent::toArray($request);
     }
 }
