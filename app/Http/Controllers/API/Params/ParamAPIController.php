@@ -14,6 +14,7 @@ use App\Http\Requests\API\ShowParamAPIRequest;
 use App\Http\Resources\ParamResourceCollection;
 use App\Http\Requests\API\DeleteParamAPIRequest;
 use App\Http\Requests\API\UpdateParamAPIRequest;
+use App\Http\Resources\ParamDescriptionResource;
 use App\Http\Requests\API\RegisterUserAPIRequest;
 use App\Http\Requests\API\RegisterParamAPIRequest;
 use App\Http\Resources\ParamValueResourceCollection;
@@ -143,7 +144,7 @@ class ParamAPIController extends APIController
         $paramDescription = ParamService::getDescription($id);
 
         return $this->sendResponse(
-            new ParamResource($paramDescription),
+            new ParamDescriptionResource($paramDescription),
             __('messages.retrieved', ['model' => __('models/params.singular')])
         );
     }

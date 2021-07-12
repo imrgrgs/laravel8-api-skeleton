@@ -15,6 +15,7 @@ class ParamResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $attributes = parent::toArray($request);
 
         foreach ($this->getTranslatableAttributes() as $field) {
