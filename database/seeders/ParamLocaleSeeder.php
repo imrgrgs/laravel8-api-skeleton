@@ -17,9 +17,9 @@ class ParamLocaleSeeder extends Seeder
         // Create a new param 'locales'
         $paramName = 'locales';
         $displayName = [
-            ['en' => 'Locales'],
-            ['pt-BR' => 'Localizações'],
-            ['es' => 'Localizaciones']
+            'en' => 'Locales',
+            'pt-BR' => 'Localizações',
+            'es' => 'Localizaciones'
         ];
         $this->command->info('Creating Param object ' . strtoupper($paramName));
         $param = \App\Models\Param::firstOrCreate(
@@ -28,28 +28,34 @@ class ParamLocaleSeeder extends Seeder
                 'display_name' => $displayName,
             ]
         );
+        $description = [
+            'en' => 'Description Locales',
+            'pt-BR' => 'Descrição Localizações',
+            'es' => 'Descricion Localizaciones'
+        ];
+
         \App\Models\ParamDescription::firstOrCreate(
             ['param_id' => $param->id],
             [
-                'description' => $displayName,
+                'description' => $description,
             ]
         );
 
         $codes = ['en', 'pt-BR', 'es'];
         $displayName['en'] = [
-            ['en' => 'English'],
-            ['pt-BR' => 'Inglês'],
-            ['es' => 'Ingles']
+            'en' => 'English',
+            'pt-BR' => 'Inglês',
+            'es' => 'Ingles'
         ];
         $displayName['pt-BR'] = [
-            ['en' => 'Portuguese'],
-            ['pt-BR' => 'Português'],
-            ['es' => 'Portugues']
+            'en' => 'Portuguese',
+            'pt-BR' => 'Português',
+            'es' => 'Portugues'
         ];
         $displayName['es'] = [
-            ['en' => 'Spanish'],
-            ['pt-BR' => 'Espanhol'],
-            ['es' => 'Spañol']
+            'en' => 'Spanish',
+            'pt-BR' => 'Espanhol',
+            'es' => 'Spañol'
         ];
 
         foreach ($codes as $code) {

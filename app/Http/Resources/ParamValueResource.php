@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ParamResource extends JsonResource
+class ParamValueResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,9 +24,7 @@ class ParamResource extends JsonResource
         return [
             'id' => $attributes['id'],
             'name' => $attributes['name'],
-            'dispay_name' => $attributes['display_name'],
-            'values' => ParamValueResource::collection($this->values),
         ];
-        //    return parent::toArray($request);
+        //   return parent::toArray($request);
     }
 }

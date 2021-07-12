@@ -4,7 +4,7 @@ namespace App\Services;
 
 
 use App\Models\Param;
-
+use App\Models\ParamValue;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\ParamRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -176,7 +176,8 @@ class ParamService
     public function getValuesParam($id): Collection
     {
         $param = $this->paramRepository->getByColumnOrFail('id', $id);
-        return $param->values;
+        return ParamValue::where('param_id', $param->id)->get();
+        // return $param->values;
     }
 
     /**
@@ -196,10 +197,7 @@ class ParamService
         $paramValues = [];
         if ($values) {
             foreach ($values as $paramValue) {
-                $paramValueNames = [];
-                foreach ($paramValue['names'] as $key => $name) {
-                    $paramValueNames[] = [$key => $name];
-                }
+                $paramValueNames = $this->prepareParamValueName($paramValue['names']);
                 $paramValues[] = [
                     'code' => $paramValue['code'],
                     'name' => $paramValueNames,
@@ -213,13 +211,23 @@ class ParamService
         return $paramValues;
     }
 
+    private function prepareParamValueName($paramValue)
+    {
+        $paramValueNames = [];
+        foreach ($paramValue as $key => $name) {
+            $paramValueNames[$key] =  $name;
+        }
+
+        return $paramValueNames;
+    }
+
     private function prepareParamDescription(array $descriptions = [])
     {
         $description = [];
 
         if ($descriptions) {
             foreach ($descriptions as $key => $value) {
-                $description[] = [$key => $value];
+                $description[$key] =  $value;
             }
         }
         return $description;
@@ -231,7 +239,7 @@ class ParamService
 
         if ($displayNames) {
             foreach ($displayNames as $key => $value) {
-                $displayName[] = [$key => $value];
+                $displayName[$key] =  $value;
             }
         }
         return $displayName;
