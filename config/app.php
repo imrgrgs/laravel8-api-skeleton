@@ -18,6 +18,11 @@ return [
     'version' => env('APP_VERSION', '1.0'),
     'contact_error' => env('APP_CONTACT_ERROR', 'contac@email.com'),
 
+    'user_avatar_storage' => env('USER_AVATAR_STORAGE', 'public/images/avatars'),
+    'user_avatar_thumb_storage' => env('USER_AVATAR_THUMB_STORAGE', 'public/images/avatars/thumb'),
+    'app.user_avatar_default' => env('USER_AVATAR_DEFAULT', 'default-avatar.png'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

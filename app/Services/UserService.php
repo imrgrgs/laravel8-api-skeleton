@@ -9,11 +9,15 @@ use App\Models\User;
 use App\Traits\Images;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
+
+
     use Images;
 
     /** @var  UserRepository */
