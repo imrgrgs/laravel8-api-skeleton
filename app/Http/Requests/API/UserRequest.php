@@ -33,7 +33,14 @@ class UserRequest extends APIRequest
             'name' => 'required|min:3|max:128',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|max:32',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+            'roles' => 'required_without:permissions|array|min:1',
+            'roles.*.name' => 'required_without:permissions|string|distinct|min:3|max:32|exists:roles,name',
+
+            'permissions' => 'required_without:roles|array|min:1',
+            'permissions.*.name' => 'required_without:roles|string|distinct|min:3|max:32|exists:permissions,name',
+
         ];
     }
 

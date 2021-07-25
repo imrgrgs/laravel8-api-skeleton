@@ -16,9 +16,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    const AVATAR_STORAGE = config('app.user_avatar_storage');
-    const AVATAR_THUMB_STORAGE = config('app.user_avatar_thumb_storage');
-    const AVATAR_DEFAULT = config('app.user_avatar_default');
+    const AVATAR_STORAGE = 'public/images/avatars';
+    const AVATAR_THUMB_STORAGE = 'public/images/avatars/thumb';
+    const AVATAR_DEFAULT = 'default-avatar.png';
 
     use LaratrustUserTrait;
     use HasFactory, Notifiable;
