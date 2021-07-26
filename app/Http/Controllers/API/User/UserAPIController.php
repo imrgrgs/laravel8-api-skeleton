@@ -58,7 +58,9 @@ class UserAPIController extends APIController
         $input = $request->except(['avatar', 'roles']);
         $avatar = $request->file('avatar');
         $rolesToAttach = $request->get('roles');
-        $user = UserService::save($input, $rolesToAttach, $avatar);
+        $permissionsToAttach = $request->get('permissions');
+
+        $user = UserService::save($input, $rolesToAttach, $permissionsToAttach, $avatar);
 
         return $this->sendResponse(
             new UserResource($user),

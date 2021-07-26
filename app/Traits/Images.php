@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Stmt\TryCatch;
+
 
 trait Images
 {
@@ -18,7 +18,7 @@ trait Images
      * @param array $options key => value array for resize image ['width'=> 000, 'height' => 000]
      * @return array contains original name from image and name saved fro image ['imageOriginalName' => 'nameoriginal.jpeg', 'imageNameSaved' => 'yyyy-mm-dd4546165654hkdhkkdskf.jpeg']
      */
-    private function loadImage($image, $storage, $options = [])
+    private function saveImage($image, $storage, $options = [])
     {
         if (!in_array(strtolower($image->getClientOriginalExtension()), ['jpg', 'gif', 'png', 'jpeg', 'svg'])) {
             throw new Exception('invalid image', Response::HTTP_BAD_REQUEST);
