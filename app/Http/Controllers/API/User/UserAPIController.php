@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API\User;
 
 use App\Facades\UserService;
 
+use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\API\UserRequest;
 use App\Http\Controllers\API\APIController;
 use App\Http\Requests\API\ListUserAPIRequest;
 use App\Http\Requests\API\ShowUserAPIRequest;
@@ -13,7 +15,6 @@ use App\Http\Resources\UserResourceCollection;
 use App\Http\Requests\API\DeleteUserAPIRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Http\Requests\API\RegisterUserAPIRequest;
-use App\Http\Requests\API\UserRequest;
 
 class UserAPIController extends APIController
 {

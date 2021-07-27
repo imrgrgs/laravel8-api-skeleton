@@ -26,8 +26,9 @@ class ParamResource extends JsonResource
             'id' => $attributes['id'],
             'name' => $attributes['name'],
             'dispay_name' => $attributes['display_name'],
-            'values' => ParamValueResource::collection($this->values),
+            'param_description' =>  new ParamDescriptionResource($this->description),
+
+            'param_values' => ParamValueResource::collection($this->values),
         ];
-        //    return parent::toArray($request);
     }
 }

@@ -175,8 +175,8 @@ abstract class BaseRepository
      */
     public function find($id, $columns = ['*'])
     {
-
-        return $this->allQuery()->find($id, $columns);
+        return $this->model->find($id, $columns);
+        // return $this->allQuery()->find($id, $columns);
     }
 
     /**
@@ -190,7 +190,7 @@ abstract class BaseRepository
     public function findOrFail($id, $columns = ['*'])
     {
 
-        return $this->query()->findOrFail($id, $columns);
+        return $this->model->findOrFail($id, $columns);
     }
 
     /**
@@ -204,7 +204,7 @@ abstract class BaseRepository
     public function getByColumn($column, $value, array $columns = ['*'])
     {
 
-        return $this->query()->where($column, $value)->first($columns);
+        return $this->model->where($column, $value)->first($columns);
     }
 
     /**
@@ -218,7 +218,7 @@ abstract class BaseRepository
      */
     public function getByColumnOrFail($column, $value, array $columns = ['*']): Model
     {
-        return  $this->query()->where($column, $value)->firstOrFail($columns);
+        return  $this->model->where($column, $value)->firstOrFail($columns);
     }
 
 

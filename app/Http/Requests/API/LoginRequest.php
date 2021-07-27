@@ -6,6 +6,11 @@ namespace App\Http\Requests\API;
 
 class LoginRequest extends APIRequest
 {
+    public function authorize()
+    {
+       // $this->isActive();
+        return true;
+    }
     /**
      * Get the validation rules that apply to the post request.
      *

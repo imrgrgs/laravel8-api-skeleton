@@ -18,7 +18,11 @@ return [
     'throttle' => 'Muitas tentativas de login. Por favor tente novamente em :seconds segundos.',
     'unauthorized' => 'Sem autorização.',
     'successfully_logged_out' => 'Sessão encerrada com sucesso.',
-    'not_active' => 'Usuário não está ativo.',
+    'user_not_active' => 'Usuário não está ativo.',
+    'user_not_tenant' => 'Usuário não possuí locador vinculado.',
+
+    'tenant_not_active' => 'Locador não está ativo.',
+    'no_permission' => 'Lamento, você não tem autorização para essa ação.',
     'deactive_same' => 'Você não pode sesativar a si mesmo.',
     'active_same' => 'Você não pode ativar a si mesmo.',
     'deactive_success' => 'Usuário foi desativado com sucesso.',

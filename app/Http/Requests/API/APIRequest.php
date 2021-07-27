@@ -29,6 +29,7 @@ class APIRequest extends FormRequest
      */
     public function authorize()
     {
+        $this->isActive();
         return true;
     }
 

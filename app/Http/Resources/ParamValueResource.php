@@ -30,7 +30,7 @@ class ParamValueResource extends JsonResource
             'color' => $attributes['color'],
             'is_visible' => $attributes['is_visible'],
             'is_default' => $attributes['is_default'],
-            'description' =>  $this->description,
+            'param_value_description' =>  new ParamValueDescriptionResource($this->description),
         ];
         //   return parent::toArray($request);
     }

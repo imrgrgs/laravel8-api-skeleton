@@ -13,11 +13,10 @@ class UserRequest extends APIRequest
      */
     public function view()
     {
+
         $this->hasRole('superadmin|admin');
         $this->hasPermission('users-read');
-        return [
-            //
-        ];
+        return [];
     }
     /**
      * Get the validation rules that apply to the post request.

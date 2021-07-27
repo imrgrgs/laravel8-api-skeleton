@@ -22,9 +22,9 @@ class ParamValueDescriptionResource extends JsonResource
             $attributes[$field] = $this->getTranslation($field, App::getLocale());
         }
         return [
-            'id' => $attributes['id'],
+            //    'id' => $attributes['id'],
             'description' => $attributes['description'],
-            'param_value_id' => $attributes['description'],
+            //    'param_value_id' => $attributes['param_value_id'],
         ];
     }
 }

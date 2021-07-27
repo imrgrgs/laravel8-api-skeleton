@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use Exception;
+
+
+
+use App\Facades\TenantService;
+
+use Illuminate\Http\JsonResponse;
+
 use App\Http\Resources\UserResource;
-
-
-
 use App\Http\Resources\LoginResource;
-
 use App\Http\Requests\API\LoginRequest;
-
 use App\Http\Controllers\API\APIController;
 use App\Facades\UserService as FacadesUserService;
 
@@ -54,12 +57,31 @@ class AuthController extends APIController
                 __('auth.failed')
             );
         }
-        $user =  auth()->user();
-        if (!$user->active) {
-            return $this->sendError(
-                __('auth.not_active')
-            );
+
+        $login = auth()->user();
+        if (!$login->active) {
+            $message = __('auth.user_not_active');
+            throw new Exception($message, JsonResponse::HTTP_FORBIDDEN);
         }
+        if (!$login->tenant_id) {
+            $message = __('auth.user_not_tenant');
+            throw new Exception($message, JsonResponse::HTTP_FORBIDDEN);
+        }
+        $tenant = TenantService::find($login->tenant_id);
+        if (!$tenant) {
+            $message = __('auth.user_not_tenant');
+            throw new Exception($message, JsonResponse::HTTP_FORBIDDEN);
+        }
+        if (!$tenant->is_active) {
+            $message = __('auth.tenant_not_active');
+            throw new Exception($message, JsonResponse::HTTP_FORBIDDEN);
+        }
+        // $user =  auth()->user();
+        // if (!$user->active) {
+        //     return $this->sendError(
+        //         __('auth.user_not_active')
+        //     );
+        // }
         return $this->respondWithToken($token);
     }
 
@@ -129,14 +151,5 @@ class AuthController extends APIController
             new LoginResource($userLogged),
             __('messages.retrieved', ['model' => __('models/users.singular')])
         );
-        // return $this->sendResponse(
-        //     new UserResource([
-        //         'access_token' => $token,
-        //         'token_type' => 'bearer',
-        //         'expires_in' => auth()->factory()->getTTL() * 60,
-        //         'user' => auth()->user(),
-        //     ]),
-        //     __('messages.retrieved', ['model' => __('models/users.singular')])
-        // );
     }
 }
