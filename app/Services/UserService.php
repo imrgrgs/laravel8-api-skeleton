@@ -147,12 +147,8 @@ class UserService
         $storage = User::AVATAR_STORAGE;
         $names = [];
         if ($avatar) {
-            $delAvatar = $user->avatar;
-            if ($delAvatar) {
-                if (!$this->deleteImage($delAvatar, $storage)) {
-                    Log::info('Não excluiu a imagem ' .  $delAvatar);
-                };
-            }
+            $this->cleanAvatar($user->avatar);
+
             $names = $this->saveImage($avatar, $storage);
             $avatar = $names['nameSaved'];
             DB::beginTransaction();
@@ -165,16 +161,12 @@ class UserService
     public function deleteAvatar($id)
     {
         $user = $this->userRepository->findOrFail($id);
-        $delAvatar = $user->avatar;
-        $storage = User::AVATAR_STORAGE;
-        if ($delAvatar) {
-            if (!$this->deleteImage($delAvatar, $storage)) {
-                Log::info('Não excluiu a imagem ' . $delAvatar);
-            };
-            DB::beginTransaction();
-            $user = $this->userRepository->update(['avatar' => null], $id);
-            DB::commit();
-        }
+        $this->cleanAvatar($user->avatar);
+
+        DB::beginTransaction();
+        $user = $this->userRepository->update(['avatar' => null], $id);
+        DB::commit();
+
 
 
         return $user;
@@ -183,16 +175,10 @@ class UserService
     public function changeAvatar($id, $avatar = null)
     {
         $user = $this->userRepository->findOrFail($id);
-        $delAvatar = $user->avatar;
-        $storage = User::AVATAR_STORAGE;
+        $this->cleanAvatar($user->avatar);
 
-        if ($delAvatar) {
-            if (!$this->deleteImage($delAvatar, $storage)) {
-                Log::info('Não excluiu a imagem ' . $delAvatar);
-            };
-        }
         if ($avatar) {
-
+            $storage = User::AVATAR_STORAGE;
             $names = $this->saveImage($avatar, $storage);
             $avatar = $names['nameSaved'];
         }
@@ -215,13 +201,7 @@ class UserService
     public function delete($id)
     {
         $user = $this->userRepository->findOrFail($id, ['avatar']);
-        $delAvatar = $user->avatar;
-        $storage = User::AVATAR_STORAGE;
-        if ($delAvatar) {
-            if (!$this->deleteImage($delAvatar, $storage)) {
-                Log::info('Não excluiu a imagem ' . $delAvatar);
-            };
-        }
+        $this->cleanAvatar($user->avatar);
 
         DB::beginTransaction();
         $qtdDel = $this->userRepository->delete($id);
@@ -229,6 +209,18 @@ class UserService
         return $qtdDel;
     }
 
+    private function cleanAvatar($avatar = null)
+    {
+        $storage = User::AVATAR_STORAGE;
+        if ($avatar) {
+            if (!$this->deleteImage($avatar, $storage)) {
+                Log::info('Não excluiu a imagem ' . $avatar);
+                return false;
+            };
+            return true;
+        }
+        return true;
+    }
 
     public function query($skip, $limit)
     {
