@@ -107,6 +107,18 @@ class RoleService
         return $this->roleRepository->getRoleLevel($name);
     }
 
+    public function getMaxRoleLevel($roles): int
+    {
+        $maxRoleLevel = 0;
+        foreach ($roles as $role) {
+            $level = $this->getRoleLevel($role->name);
+            if ($level > $maxRoleLevel) {
+                $maxRoleLevel = $level;
+            }
+        }
+        return $maxRoleLevel;
+    }
+
 
     /**
      * get Role by name

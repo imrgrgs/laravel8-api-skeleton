@@ -66,13 +66,13 @@ class RoleRepository extends BaseRepository
     {
         Log::debug("role name " . $name);
         $oRole = $this->getByColumnOrFail('name', $name);
-        $roles = Config::get('permissions.roles');
-        if (!$roles) {
+        $rolesLevel = Config::get('permissions.roles');
+        if (!$rolesLevel) {
             $message = 'The configuration config/permissions.php has not been found. Did you have config/permissions.php file';
             throw new Exception($message, Response::HTTP_NOT_FOUND);
         }
         $level = '';
-        foreach ($roles as  $role) {
+        foreach ($rolesLevel as  $role) {
             if ($role['name'] == $name) {
                 $level =  $role['level'];
             }

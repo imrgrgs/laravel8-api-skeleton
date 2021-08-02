@@ -62,16 +62,11 @@ class UserService
 
 
         if ($roles) {
-            $maxLoginRoleLevel = 0;
             $loginRoles = $this->login->roles;
+            $maxLoginRoleLevel = RoleService::getMaxRoleLevel($loginRoles);
+
             $forbidenRoles = [];
 
-            foreach ($loginRoles as $role) {
-                $level = RoleService::getRoleLevel($role->name);
-                if ($level > $maxLoginRoleLevel) {
-                    $maxLoginRoleLevel = $level;
-                }
-            }
 
 
             foreach ($roles as $role) {
