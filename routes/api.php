@@ -61,6 +61,25 @@ Route::group($auth, function () {
 /**
  * Params group routes access
  */
+$roles = [
+    'prefix' => 'roles',
+    'domain' => '',
+    'middleware' => ['jwt.auth', 'localization'],
+    'as' => 'roles.',
+    'namespace' => 'Role',
+];
+Route::group($roles, function () {
+    Route::get('', ['as' => 'index', 'uses' => 'RoleAPIController@index',]);
+    Route::post('', ['as' => 'create', 'uses' => 'RoleAPIController@create',]);
+    Route::get('{role_id}', ['as' => 'show', 'uses' => 'RoleAPIController@show',]);
+    Route::put('{role_id}', ['as' => 'update', 'uses' => 'RoleAPIController@update',]);
+    Route::delete('{role_id}', ['as' => 'delete', 'uses' => 'RoleAPIController@destroy',]);
+}); // end group roles
+
+
+/**
+ * Params group routes access
+ */
 $params = [
     'prefix' => 'params',
     'domain' => '',

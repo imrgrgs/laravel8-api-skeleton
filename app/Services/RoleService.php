@@ -6,9 +6,10 @@ namespace App\Services;
 
 
 use App\Models\Role;
+use App\Facades\PermissionService;
 use Illuminate\Support\Facades\DB;
-use App\Services\Generator\HashCode;
 use App\Repositories\RoleRepository;
+use App\Services\Generator\HashCode;
 use Illuminate\Database\Eloquent\Collection;
 
 
@@ -39,12 +40,30 @@ class RoleService
      * @param Array $input
      * @return app/Models/Param a new param saved
      */
-    public function save(array $input)
+    public function save(array $input, array $displayNames = null, array $descriptions = null, array $permissions = null)
     {
+        $displayName = $this->prepareParamDisplayName($displayNames);
+        $description = $this->prepareParamDescription($descriptions);
+        $permissionsId = [];
+        if ($permissions) {
+            foreach ($permissions as $permission) {
+
+                $permissionsId[] = PermissionService::getByColumnOrFail(
+                    'name',
+                    $permission['name']
+                )->id;
+            }
+        }
+
+
 
         DB::beginTransaction();
-        $role = $this->roleRepository->create($input);
-
+        $role = $this->roleRepository->create([
+            'name' => $input['name'],
+            'display_name' => $displayName,
+            'description' => $description,
+        ]);
+        $role->permissions()->sync($permissionsId);
         DB::commit();
         return $role;
     }
@@ -173,5 +192,29 @@ class RoleService
     public static function getUsers(Role $object): Collection
     {
         return $object->users;
+    }
+
+    private function prepareParamDescription(array $descriptions = [])
+    {
+        $description = [];
+
+        if ($descriptions) {
+            foreach ($descriptions as $key => $value) {
+                $description[$key] =  $value;
+            }
+        }
+        return $description;
+    }
+
+    private function prepareParamDisplayName(array $displayNames = [])
+    {
+        $displayName = [];
+
+        if ($displayNames) {
+            foreach ($displayNames as $key => $value) {
+                $displayName[$key] =  $value;
+            }
+        }
+        return $displayName;
     }
 }

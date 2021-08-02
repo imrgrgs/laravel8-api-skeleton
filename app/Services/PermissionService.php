@@ -39,11 +39,17 @@ class PermissionService
      * @param Array $input
      * @return app/Models/Param a new param saved
      */
-    public function save(array $input)
+    public function save(array $input, array $displayNames = null, array $descriptions = null)
     {
+        $displayName = $this->prepareParamDisplayName($displayNames);
+        $description = $this->prepareParamDescription($descriptions);
 
         DB::beginTransaction();
-        $permission = $this->permissionRepository->create($input);
+        $permission = $this->permissionRepository->create([
+            'name' => $input['name'],
+            'display_name' => $displayName,
+            'description' => $description,
+        ]);
 
         DB::commit();
         return $permission;
@@ -121,7 +127,7 @@ class PermissionService
     {
         return $this->permissionRepository->getByColumnOrFail(
             $column,
-           $value
+            $value
         );
     }
 
@@ -158,5 +164,29 @@ class PermissionService
     public static function getUsers(Permission $object): Collection
     {
         return $object->users;
+    }
+
+    private function prepareParamDescription(array $descriptions = [])
+    {
+        $description = [];
+
+        if ($descriptions) {
+            foreach ($descriptions as $key => $value) {
+                $description[$key] =  $value;
+            }
+        }
+        return $description;
+    }
+
+    private function prepareParamDisplayName(array $displayNames = [])
+    {
+        $displayName = [];
+
+        if ($displayNames) {
+            foreach ($displayNames as $key => $value) {
+                $displayName[$key] =  $value;
+            }
+        }
+        return $displayName;
     }
 }
