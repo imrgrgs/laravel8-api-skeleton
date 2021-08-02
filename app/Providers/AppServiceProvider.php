@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        App::bind('permission', function () {
+            return new \App\Services\PermissionService;
+        });
+        App::bind('role', function () {
+            return new \App\Services\RoleService;
+        });
+
         App::bind('tenant', function () {
             return new \App\Services\TenantService;
         });

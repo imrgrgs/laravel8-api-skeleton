@@ -3,16 +3,17 @@
 namespace App\Services;
 
 use Exception;
-use Carbon\Carbon;
+
 
 use App\Models\User;
 use App\Traits\Images;
+use App\Facades\RoleService;
+use App\Facades\PermissionService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\URL;
-use App\Repositories\RoleRepository;
+
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Storage;
+
 
 class UserService
 {
@@ -23,8 +24,8 @@ class UserService
     /** @var  UserRepository */
     private $userRepository;
 
-    /** @var  RoleRepository */
-    private $roleRepository;
+
+
 
     /**
      * User object logged on
@@ -46,7 +47,6 @@ class UserService
     private function setRepositories()
     {
         $this->userRepository = new UserRepository();
-        $this->roleRepository = new RoleRepository();
     }
 
     /**
@@ -67,7 +67,7 @@ class UserService
             $forbidenRoles = [];
 
             foreach ($loginRoles as $role) {
-                $level = $this->roleRepository->getRoleLevel($role->name);
+                $level = RoleService::getRoleLevel($role->name);
                 if ($level > $maxLoginRoleLevel) {
                     $maxLoginRoleLevel = $level;
                 }
@@ -75,10 +75,10 @@ class UserService
 
 
             foreach ($roles as $role) {
-                if ($this->roleRepository->getRoleLevel($role['name']) > $maxLoginRoleLevel) {
+                if (RoleService::getRoleLevel($role['name']) > $maxLoginRoleLevel) {
                     $forbidenRoles[] = $role['name'];
                 } else {
-                    $rolesToAtach[] = $this->roleRepository->getByColumnOrFail(
+                    $rolesToAtach[] = RoleService::getByColumnOrFail(
                         'name',
                         $role['name']
                     );
@@ -88,6 +88,16 @@ class UserService
             if ($forbidenRoles) {
                 $message = __('messages.cant_register_user_with_role_greater', ['not_allowed' => implode(', ', $forbidenRoles)]);
                 throw new Exception($message, \Illuminate\Http\Response::HTTP_FORBIDDEN);
+            }
+        }
+
+        if ($permissions) {
+            foreach ($permissions as $permission) {
+
+                $permissionsToAtach[] = PermissionService::getByColumnOrFail(
+                    'name',
+                    $permission['name']
+                );
             }
         }
 
@@ -112,6 +122,12 @@ class UserService
                 $user->attachRole($role);
             }
         }
+        if ($permissionsToAtach) {
+            foreach ($permissionsToAtach as $permission) {
+                $user->attachPermission($permission);
+            }
+        }
+
 
         DB::commit();
         return $user;
